@@ -83,18 +83,24 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
       const imgWidth = pageWidth;
       const imgHeight = (canvas.height * pageWidth) / canvas.width;
 
-      if (imgHeight <= pageHeight) {
-        // Fits on a single A4 page
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight, undefined, 'FAST');
+      // Smart Single-Page Fitting:
+      // An A4 page ratio is 297/210 ≈ 1.414. If document height is within 15% of 1 page,
+      // fit proportionally onto exactly 1 single page without awkward page breaks or slicing signatures.
+      if (imgHeight <= pageHeight * 1.15) {
+        const scale = Math.min(1, pageHeight / imgHeight);
+        const fittedWidth = imgWidth * scale;
+        const fittedHeight = imgHeight * scale;
+        const offsetX = (pageWidth - fittedWidth) / 2;
+        pdf.addImage(imgData, 'PNG', offsetX, 0, fittedWidth, fittedHeight, undefined, 'FAST');
       } else {
-        // Multi-page clean slicing for long employment agreements
+        // Multi-page clean slicing for long agreements
         let heightLeft = imgHeight;
         let position = 0;
 
         pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
         heightLeft -= pageHeight;
 
-        while (heightLeft > 5) {
+        while (heightLeft > 10) {
           position -= pageHeight;
           pdf.addPage();
           pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
@@ -206,20 +212,130 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
   const isPending = doc.status === 'PENDING_APPROVAL';
   const isRevoked = doc.status === 'REVOKED';
 
-  // Format content
+  // Format content with comprehensive placeholder replacement & markdown parsing
   const renderFormattedContent = () => {
     const template = db.getTemplateById(doc.type);
     let body = template ? template.bodyMarkdown : '';
-    const placeholders = doc.content || {};
-    Object.keys(placeholders).forEach((key) => {
+    
+    // Comprehensive default fallbacks for any missing placeholders
+    const defaults: Record<string, string> = {
+      employee_name: doc.employeeName,
+      employee_id: doc.employeeId || doc.content?.employee_id || 'DRS-EMP-001',
+      designation: doc.designation,
+      department: (doc.content?.department as string) || 'AI Operations & Engineering',
+      joining_date: (doc.content?.joining_date as string) || (doc.content?.joiningDate as string) || '01 January 2026',
+      exit_date: (doc.content?.exit_date as string) || (doc.content?.exitDate as string) || doc.issueDate || '30 June 2026',
+      reporting_manager: 'Devesh Ambekar (Founder & CEO)',
+      probation_period: '3 Months',
+      internship_duration: '3 Months',
+      work_mode: 'Hybrid (World Trade Center, Pune)',
+      stipend_amount: '30,000',
+      annual_ctc: '6,00,000',
+      annual_ctc_in_words: 'Six Lakh Rupees Only',
+      monthly_gross: '50,000',
+      company_name: settings.companyName,
+      website: settings.website,
+      issue_date: doc.issueDate,
+    };
+
+    const combined = { ...defaults, ...(doc.content || {}) };
+
+    Object.keys(combined).forEach((key) => {
       const regex = new RegExp(`{{${key}}}`, 'g');
-      body = body.replace(regex, placeholders[key] || '');
+      body = body.replace(regex, combined[key] || '');
     });
+
     body = body
       .replace(/{{company_name}}/g, settings.companyName)
       .replace(/{{website}}/g, settings.website)
-      .replace(/{{issue_date}}/g, doc.issueDate);
+      .replace(/{{issue_date}}/g, doc.issueDate)
+      .replace(/{{[a-zA-Z0-9_-]+}}/g, '');
+
     return body;
+  };
+
+  // Convert markdown body text into clean React nodes without raw ### or **
+  const renderBodyNodes = (rawText: string) => {
+    const lines = rawText.split('\n');
+    return lines.map((line, lineIdx) => {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        return <div key={lineIdx} style={{ height: '6px' }} />;
+      }
+
+      // Check for headings: ### Title
+      if (trimmed.startsWith('### ')) {
+        const headingText = trimmed.replace(/^###\s+/, '');
+        return (
+          <div
+            key={lineIdx}
+            style={{
+              fontWeight: 700,
+              fontSize: '11px',
+              color: '#000',
+              marginTop: '10px',
+              marginBottom: '4px',
+              fontFamily: "'Helvetica Neue', Arial, sans-serif",
+              letterSpacing: '0.5px',
+              textTransform: 'uppercase',
+            }}
+          >
+            {headingText}
+          </div>
+        );
+      }
+
+      // Check for headings: ## Title
+      if (trimmed.startsWith('## ')) {
+        const headingText = trimmed.replace(/^##\s+/, '');
+        return (
+          <div
+            key={lineIdx}
+            style={{
+              fontWeight: 800,
+              fontSize: '12px',
+              color: '#000',
+              marginTop: '12px',
+              marginBottom: '6px',
+              fontFamily: "'Helvetica Neue', Arial, sans-serif",
+              textTransform: 'uppercase',
+            }}
+          >
+            {headingText}
+          </div>
+        );
+      }
+
+      // Check for bullet list item: - Item
+      const isBullet = trimmed.startsWith('- ') || trimmed.startsWith('* ');
+      const contentLine = isBullet ? trimmed.replace(/^[-*]\s+/, '') : trimmed;
+
+      // Parse bold tokens **text**
+      const parts = contentLine.split(/(\*\*[^*]+\*\*)/g);
+      const parsedChildren = parts.map((part, pIdx) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={pIdx} style={{ color: '#000', fontWeight: 700 }}>{part.slice(2, -2)}</strong>;
+        }
+        return part;
+      });
+
+      if (isBullet) {
+        return (
+          <div key={lineIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', marginLeft: '12px', marginBottom: '2px' }}>
+            <span style={{ color: '#000', fontSize: '10px', lineHeight: '1.5' }}>•</span>
+            <div style={{ flex: 1, fontSize: '10.5px', lineHeight: '1.5', color: '#222' }}>
+              {parsedChildren}
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <p key={lineIdx} style={{ marginBottom: '5px', fontSize: '11px', lineHeight: '1.55', color: '#222', textAlign: 'justify' }}>
+          {parsedChildren}
+        </p>
+      );
+    });
   };
 
   const contentText = renderFormattedContent();
@@ -311,11 +427,11 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
           className="document-sheet relative bg-white text-black shadow-2xl border border-neutral-300 rounded-none flex flex-col justify-between select-text"
           style={{
             width: '794px',
-            minHeight: '1123px',
-            padding: '48px 56px',
+            minHeight: '1080px',
+            padding: '36px 44px',
             fontFamily: "'Times New Roman', 'Georgia', serif",
-            fontSize: '12px',
-            lineHeight: '1.7',
+            fontSize: '11px',
+            lineHeight: '1.55',
             color: '#1a1a1a',
             boxSizing: 'border-box',
           }}
@@ -344,9 +460,9 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
             />
 
             {/* Recipient Block */}
-            <div style={{ marginBottom: '20px', fontSize: '11px' }}>
+            <div style={{ marginBottom: '12px', fontSize: '11px' }}>
               <p style={{ color: '#666', marginBottom: '2px' }}>To,</p>
-              <p style={{ fontSize: '12px', fontWeight: 700, color: '#000' }}>{doc.employeeName}</p>
+              <p style={{ fontSize: '11.5px', fontWeight: 700, color: '#000' }}>{doc.employeeName}</p>
               <p style={{ color: '#444' }}>{doc.designation}</p>
               <p style={{ color: '#555' }}>
                 Employee ID: <span style={{ fontFamily: 'monospace', fontWeight: 600, color: '#000' }}>{doc.employeeId || doc.content?.employee_id}</span>
@@ -354,27 +470,27 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
             </div>
 
             {/* Subject Line */}
-            <div style={{ marginBottom: '16px', fontSize: '11px' }}>
+            <div style={{ marginBottom: '10px', fontSize: '11px' }}>
               <p>
                 <span style={{ fontWeight: 700, color: '#000' }}>Sub: </span>
-                <span style={{ textDecoration: 'underline', textUnderlineOffset: '2px' }}>{doc.title}</span>
+                <span style={{ textDecoration: 'underline', textUnderlineOffset: '2px', fontWeight: 600 }}>{doc.title}</span>
               </p>
             </div>
 
-            {/* Salutation + Body */}
-            <div style={{ fontSize: '11.5px', color: '#222', lineHeight: '1.8', textAlign: 'justify', whiteSpace: 'pre-line' }}>
-              {contentText}
+            {/* Salutation + Body rendered with markdown and bullet support */}
+            <div style={{ color: '#222' }}>
+              {renderBodyNodes(contentText)}
             </div>
 
             {/* Terms and Conditions */}
             {template?.termsAndConditions && template.termsAndConditions.length > 0 && (
-              <div style={{ marginTop: '24px', paddingTop: '12px', borderTop: '1px solid #ccc' }}>
-                <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#000', marginBottom: '6px', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
+              <div style={{ marginTop: '14px', paddingTop: '8px', borderTop: '1px solid #ddd' }}>
+                <p style={{ fontSize: '9.5px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', color: '#000', marginBottom: '4px', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
                   Terms & Conditions:
                 </p>
                 <ol style={{ paddingLeft: '16px', margin: 0 }}>
                   {template.termsAndConditions.map((term, i) => (
-                    <li key={i} style={{ fontSize: '9.5px', color: '#555', lineHeight: '1.6', marginBottom: '3px' }}>
+                    <li key={i} style={{ fontSize: '9px', color: '#444', lineHeight: '1.45', marginBottom: '2px' }}>
                       {term}
                     </li>
                   ))}
@@ -383,76 +499,79 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
             )}
 
             {/* Closing */}
-            <div style={{ marginTop: '28px', fontSize: '11px' }}>
+            <div style={{ marginTop: '14px', fontSize: '10.5px' }}>
               <p style={{ color: '#333' }}>Thanking you,</p>
-              <p style={{ color: '#333', marginTop: '2px' }}>
+              <p style={{ color: '#333', marginTop: '1px' }}>
                 For <strong style={{ color: '#000' }}>{settings.companyName}</strong>
               </p>
             </div>
           </div>
 
-          {/* ===== BOTTOM: Signature + Seal + QR ===== */}
-          <div style={{ marginTop: '48px', paddingTop: '16px', borderTop: '2px solid #000' }}>
+          {/* ===== BOTTOM: Signature + Seal + QR (Monochrome Corporate Theme) ===== */}
+          <div style={{ marginTop: '20px', paddingTop: '12px', borderTop: '2px solid #000' }}>
             <div className="flex items-end justify-between gap-4">
               {/* Authorized Signatory */}
               <div>
                 {isApproved ? (
                   <div>
                     <img
-                      src="/assets/drs-signature.png"
+                      src={settings.authorizedSignatorySignatureUrl || '/assets/drs-signature.png'}
                       alt="Authorized Signature"
-                      style={{ height: '52px', width: 'auto', objectFit: 'contain', filter: 'contrast(1.3)' }}
+                      style={{ height: '42px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%) contrast(1.5)' }}
                     />
                     <div style={{ width: '160px', borderBottom: '1px solid #000', marginTop: '2px', marginBottom: '4px' }} />
                   </div>
                 ) : (
-                  <div style={{ height: '56px', display: 'flex', alignItems: 'flex-end' }}>
+                  <div style={{ height: '46px', display: 'flex', alignItems: 'flex-end' }}>
                     <div style={{ width: '150px', borderBottom: '1px dashed #999', marginBottom: '4px' }} />
                   </div>
                 )}
-                <p style={{ fontSize: '11px', fontWeight: 700, color: '#000' }}>
-                  {settings.authorizedSignatoryName}
+                <p style={{ fontSize: '10.5px', fontWeight: 700, color: '#000' }}>
+                  {settings.authorizedSignatoryName || 'Maroti Kadam'}
                 </p>
-                <p style={{ fontSize: '9.5px', color: '#555' }}>
-                  {settings.authorizedSignatoryTitle}
+                <p style={{ fontSize: '9px', color: '#555' }}>
+                  {settings.authorizedSignatoryTitle || 'Head of Human Resources & Authorized Signatory'}
                 </p>
-                <p style={{ fontSize: '9px', fontWeight: 600, color: '#333', marginTop: '1px' }}>
+                <p style={{ fontSize: '8.5px', fontWeight: 600, color: '#333', marginTop: '1px' }}>
                   {settings.companyName}
                 </p>
               </div>
 
-              {/* Official Company Seal */}
+              {/* Official Company Seal (Monochrome) */}
               <div className="flex flex-col items-center">
-                <div style={{ width: '100px', height: '100px', position: 'relative' }}>
+                <div style={{ width: '78px', height: '78px', position: 'relative' }}>
                   <img
-                    src="/assets/drs-stamp.png"
+                    src={settings.sealUrl || '/assets/drs-stamp.png'}
                     alt="Company Seal"
                     style={{
                       width: '100%',
                       height: '100%',
                       objectFit: 'contain',
-                      filter: 'contrast(1.2)',
-                      opacity: 0.85,
-                      transform: 'rotate(-5deg)',
+                      filter: 'grayscale(100%) contrast(1.5)',
+                      opacity: 0.9,
+                      transform: 'rotate(-4deg)',
                     }}
                   />
                 </div>
+                <p style={{ fontSize: '7.5px', fontFamily: 'monospace', color: '#666', marginTop: '2px', fontWeight: 600 }}>
+                  CORPORATE SEAL
+                </p>
               </div>
 
               {/* QR Verification */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px', background: '#fafafa', border: '1px solid #ddd' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 8px', background: '#fafafa', border: '1px solid #ddd' }}>
                 {qrDataUrl && (
-                  <img src={qrDataUrl} alt="Verification QR" style={{ width: '56px', height: '56px', border: '1px solid #ccc' }} />
+                  <img src={qrDataUrl} alt="Verification QR" style={{ width: '48px', height: '48px', border: '1px solid #ccc' }} />
                 )}
-                <div style={{ maxWidth: '100px' }}>
+                <div style={{ maxWidth: '105px' }}>
                   <p style={{ fontSize: '8px', fontWeight: 700, color: '#000', display: 'flex', alignItems: 'center', gap: '3px' }}>
                     <ShieldCheck className="w-3 h-3 text-black shrink-0" />
                     VERIFIED
                   </p>
-                  <p style={{ fontSize: '7px', color: '#888', fontFamily: 'monospace', wordBreak: 'break-all', lineHeight: '1.3', marginTop: '2px' }}>
+                  <p style={{ fontSize: '7px', color: '#888', fontFamily: 'monospace', wordBreak: 'break-all', lineHeight: '1.2', marginTop: '2px' }}>
                     {doc.verificationToken}
                   </p>
-                  <p style={{ fontSize: '7px', color: '#aaa', marginTop: '2px' }}>
+                  <p style={{ fontSize: '6.5px', color: '#aaa', marginTop: '1px' }}>
                     Scan to verify authenticity
                   </p>
                 </div>
@@ -460,11 +579,11 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
             </div>
 
             {/* Document Footer */}
-            <div style={{ marginTop: '16px', paddingTop: '8px', borderTop: '1px solid #ddd', textAlign: 'center' }}>
-              <p style={{ fontSize: '8px', color: '#888', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
+            <div style={{ marginTop: '10px', paddingTop: '6px', borderTop: '1px solid #ddd', textAlign: 'center' }}>
+              <p style={{ fontSize: '7.5px', color: '#888', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
                 This is a computer-generated document issued by {settings.companyName} (CIN: {settings.cinNumber}).
               </p>
-              <p style={{ fontSize: '7.5px', color: '#aaa', marginTop: '2px', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
+              <p style={{ fontSize: '7px', color: '#aaa', marginTop: '1px', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
                 {settings.address} • {settings.officialEmail} • {settings.website}
               </p>
             </div>

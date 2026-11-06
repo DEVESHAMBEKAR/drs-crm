@@ -69,6 +69,70 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
     }
   };
 
+  // Generate clean, beautifully formatted certificate citation without raw markdown
+  const renderCitation = () => {
+    const joining = (doc.content?.joining_date as string) || (doc.content?.joiningDate as string) || '01 January 2026';
+    const exit = (doc.content?.exit_date as string) || (doc.content?.exitDate as string) || doc.issueDate || '30 June 2026';
+    const dept = (doc.content?.department as string) || 'AI Operations & QA';
+
+    if (doc.content?.customParagraph) {
+      let clean = (doc.content.customParagraph as string)
+        .replace(/^###\s+/gm, '')
+        .replace(/{{joining_date}}/g, joining)
+        .replace(/{{exit_date}}/g, exit)
+        .replace(/{{employee_name}}/g, doc.employeeName)
+        .replace(/{{employee_id}}/g, doc.employeeId)
+        .replace(/{{designation}}/g, doc.designation)
+        .replace(/{{department}}/g, dept)
+        .replace(/{{company_name}}/g, settings.companyName)
+        .replace(/{{[a-zA-Z0-9_-]+}}/g, '');
+
+      const parts = clean.split(/(\*\*[^*]+\*\*)/g);
+      return (
+        <span className="leading-relaxed">
+          {parts.map((p: string, i: number) =>
+            p.startsWith('**') && p.endsWith('**') ? (
+              <strong key={i}>{p.slice(2, -2)}</strong>
+            ) : (
+              p
+            )
+          )}
+        </span>
+      );
+    }
+
+    if (doc.type === 'INTERNSHIP_COMPLETION') {
+      return (
+        <span className="leading-relaxed">
+          This is to formally certify that <strong>{doc.employeeName}</strong> has successfully completed an intensive internship program with <strong>{settings.companyName}</strong> from <strong>{joining}</strong> to <strong>{exit}</strong> as an <strong>{doc.designation}</strong> in the <strong>{dept}</strong> division. During their tenure, they demonstrated sound technical acumen, operational diligence, and commendable contributions to enterprise AI benchmark deliveries.
+        </span>
+      );
+    }
+
+    if (doc.type === 'EXPERIENCE_CERTIFICATE' || doc.type === 'RELIEVING_LETTER') {
+      return (
+        <span className="leading-relaxed">
+          This is to formally certify that <strong>{doc.employeeName}</strong> (Employee ID: <strong>{doc.employeeId}</strong>) was employed with <strong>{settings.companyName}</strong> from <strong>{joining}</strong> to <strong>{exit}</strong> as <strong>{doc.designation}</strong> in the <strong>{dept}</strong> division. During their operational tenure, their conduct, diligence, and technical contributions were found exemplary.
+        </span>
+      );
+    }
+
+    if (doc.type === 'PROJECT_COMPLETION') {
+      return (
+        <span className="leading-relaxed">
+          In formal recognition of <strong>{doc.employeeName}</strong> for outstanding technical execution, operational precision, and key milestone delivery under the <strong>{dept}</strong> division at <strong>{settings.companyName}</strong>.
+        </span>
+      );
+    }
+
+    // Default / Appreciation / Achievement / Merit
+    return (
+      <span className="leading-relaxed">
+        In formal recognition of exemplary dedication, operational proficiency, and high-impact technical contributions to <strong>{settings.companyName}</strong>. Conferred with the highest appreciation of the Executive Leadership.
+      </span>
+    );
+  };
+
   return (
     <div className="space-y-4">
       {/* Action Toolbar */}
@@ -112,7 +176,7 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
               <img
                 src="/assets/drs-logo.jpg"
                 alt="DRS Logo"
-                className="w-14 h-14 object-contain filter contrast-125"
+                className="w-14 h-14 object-contain filter grayscale contrast-150"
               />
               <div className="text-left font-sans">
                 <h1 className="text-2xl font-black tracking-tight text-black">DEEP ROOT STUDIOS</h1>
@@ -145,18 +209,9 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
               Employee ID: {doc.employeeId} • {doc.designation}
             </p>
 
-            <p className="text-xs sm:text-sm font-sans leading-relaxed text-neutral-800 max-w-2xl mx-auto pt-2 text-center">
-              {doc.content?.customParagraph ||
-                (db.getTemplateById(doc.type)?.bodyMarkdown
-                  ? db.getTemplateById(doc.type)!.bodyMarkdown
-                      .replace(/{{employee_name}}/g, doc.employeeName || '')
-                      .replace(/{{employee_id}}/g, doc.employeeId || '')
-                      .replace(/{{designation}}/g, doc.designation || '')
-                      .replace(/{{department}}/g, doc.content?.department || '')
-                      .replace(/{{company_name}}/g, settings.companyName || 'Deep Root Studios Private Limited')
-                      .replace(/{{issue_date}}/g, doc.issueDate || (doc.createdAt ? doc.createdAt.split('T')[0] : ''))
-                  : 'In formal recognition of exemplary dedication, technical proficiency, and high-impact contributions to Deep Root Studios. Conferred with the highest appreciation of the Executive Leadership.')}
-            </p>
+            <div className="text-xs sm:text-sm font-sans leading-relaxed text-neutral-800 max-w-2xl mx-auto pt-2 text-center">
+              {renderCitation()}
+            </div>
           </div>
 
           {/* Bottom: Signatures, Seal & QR Verification */}
@@ -166,19 +221,19 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
               <img
                 src={settings.authorizedSignatorySignatureUrl || '/assets/drs-signature.png'}
                 alt="Authorized Signature"
-                className="h-12 w-auto object-contain mx-auto mb-1 filter contrast-125"
+                className="h-12 w-auto object-contain mx-auto mb-1 filter grayscale contrast-150"
               />
               <div className="w-36 border-b border-black mb-1 mx-auto" />
               <p className="text-xs font-bold text-black">{settings.authorizedSignatoryName || 'Maroti Kadam'}</p>
-              <p className="text-[10px] text-neutral-600">{settings.authorizedSignatoryTitle || 'Head of Human Resources & Operations'}</p>
+              <p className="text-[10px] text-neutral-600">{settings.authorizedSignatoryTitle || 'Head of Human Resources & Authorized Signatory'}</p>
             </div>
 
-            {/* Official Company Seal in Center */}
+            {/* Official Company Seal in Center (Monochrome) */}
             <div className="text-center">
               <img
                 src={settings.sealUrl || '/assets/drs-stamp.png'}
                 alt="Deep Root Studios Seal"
-                className="w-24 h-24 object-contain mx-auto filter contrast-125 opacity-90 rotate-[-3deg]"
+                className="w-24 h-24 object-contain mx-auto filter grayscale contrast-150 opacity-90 rotate-[-3deg]"
               />
               <p className="text-[8px] font-mono font-semibold text-neutral-500 mt-0.5">
                 CORPORATE SEAL
@@ -188,12 +243,21 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
             {/* Founder Signatory & QR */}
             <div className="flex items-center gap-4">
               <div className="text-center">
-                <div className="h-12 flex items-end justify-center">
-                  <span className="font-serif italic font-bold text-base text-black">{settings.founderName || 'Devesh Ambekar'}</span>
+                <div className="h-12 flex items-center justify-center">
+                  <span
+                    style={{
+                      fontFamily: "'Segoe Script', 'Brush Script MT', 'Dancing Script', cursive",
+                      fontSize: '26px',
+                      color: '#000000',
+                      fontWeight: 600,
+                    }}
+                  >
+                    {settings.founderName || 'Devesh Ambekar'}
+                  </span>
                 </div>
                 <div className="w-36 border-b border-black mb-1 mx-auto" />
                 <p className="text-xs font-bold text-black">{settings.founderName || 'Devesh Ambekar'}</p>
-                <p className="text-[10px] text-neutral-600">{settings.founderTitle || 'Founder & Managing Director / CEO'}</p>
+                <p className="text-[10px] text-neutral-600">{settings.founderTitle || 'Founder & Managing Director'}</p>
               </div>
 
               {qrDataUrl && (
