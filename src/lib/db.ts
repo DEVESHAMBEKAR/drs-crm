@@ -554,6 +554,158 @@ export const db = {
     return cycles[idx];
   },
 
+  updatePayslip: (
+    id: string,
+    updates: Partial<PayslipItem>,
+    actor: { id: string; name: string; role: UserRole }
+  ): PayslipItem => {
+    const payslips = db.getPayslips();
+    const idx = payslips.findIndex((p) => p.id === id);
+    if (idx === -1) throw new Error('Payslip not found');
+
+    const current = payslips[idx];
+    const basic = updates.basicSalary !== undefined ? Number(updates.basicSalary) : current.basicSalary;
+    const hra = updates.hra !== undefined ? Number(updates.hra) : current.hra;
+    const special = updates.specialAllowance !== undefined ? Number(updates.specialAllowance) : current.specialAllowance;
+    const bonus = updates.bonus !== undefined ? Number(updates.bonus) : current.bonus;
+    const gross = basic + hra + special + bonus;
+
+    const pf = updates.providentFund !== undefined ? Number(updates.providentFund) : current.providentFund;
+    const pt = updates.professionalTax !== undefined ? Number(updates.professionalTax) : current.professionalTax;
+    const tds = updates.tdsTax !== undefined ? Number(updates.tdsTax) : current.tdsTax;
+    const other = updates.otherDeductions !== undefined ? Number(updates.otherDeductions) : current.otherDeductions;
+    const deductions = pf + pt + tds + other;
+    const net = gross - deductions;
+
+    const updated: PayslipItem = {
+      ...current,
+      ...updates,
+      basicSalary: basic,
+      hra,
+      specialAllowance: special,
+      bonus,
+      grossEarnings: gross,
+      providentFund: pf,
+      professionalTax: pt,
+      tdsTax: tds,
+      otherDeductions: other,
+      totalDeductions: deductions,
+      netSalary: net,
+      netSalaryInWords: numberToIndianWords(net),
+    };
+
+    payslips[idx] = updated;
+    setStorage(KEYS.PAYSLIPS, payslips);
+
+    // Sync parent cycle totals if cycle exists
+    if (updated.payrollId) {
+      const cycles = db.getPayrollCycles();
+      const cycleIdx = cycles.findIndex((c) => c.id === updated.payrollId);
+      if (cycleIdx !== -1) {
+        const cycleSlips = payslips.filter((p) => p.payrollId === updated.payrollId);
+        cycles[cycleIdx].totalGrossPayout = cycleSlips.reduce((sum, s) => sum + s.grossEarnings, 0);
+        cycles[cycleIdx].totalDeductions = cycleSlips.reduce((sum, s) => sum + s.totalDeductions, 0);
+        cycles[cycleIdx].totalNetPayout = cycleSlips.reduce((sum, s) => sum + s.netSalary, 0);
+        setStorage(KEYS.PAYROLL, cycles);
+      }
+    }
+
+    db.logAudit({
+      actorId: actor.id,
+      actorName: actor.name,
+      actorRole: actor.role,
+      action: 'PAYSLIP_UPDATED',
+      entityType: 'PAYSLIP',
+      entityId: id,
+      details: `Updated payslip ${updated.payslipNumber} for ${updated.employeeName}. Net: ₹${net.toLocaleString('en-IN')}`,
+    });
+
+    return updated;
+  },
+
+  createCustomPayslip: (
+    data: Omit<PayslipItem, 'id' | 'grossEarnings' | 'totalDeductions' | 'netSalary' | 'netSalaryInWords'> & {
+      grossEarnings?: number;
+      totalDeductions?: number;
+      netSalary?: number;
+      netSalaryInWords?: string;
+    },
+    actor: { id: string; name: string; role: UserRole }
+  ): PayslipItem => {
+    const payslips = db.getPayslips();
+    const basic = Number(data.basicSalary || 0);
+    const hra = Number(data.hra || 0);
+    const special = Number(data.specialAllowance || 0);
+    const bonus = Number(data.bonus || 0);
+    const gross = basic + hra + special + bonus;
+
+    const pf = Number(data.providentFund || 0);
+    const pt = Number(data.professionalTax || 0);
+    const tds = Number(data.tdsTax || 0);
+    const other = Number(data.otherDeductions || 0);
+    const deductions = pf + pt + tds + other;
+    const net = gross - deductions;
+
+    const id = `slip-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    const payslipNumber = data.payslipNumber || `DRS/PAY/${data.year}/${data.month.toString().padStart(2, '0')}/${(payslips.length + 1).toString().padStart(3, '0')}`;
+
+    const newSlip: PayslipItem = {
+      ...data,
+      id,
+      payslipNumber,
+      basicSalary: basic,
+      hra,
+      specialAllowance: special,
+      bonus,
+      grossEarnings: gross,
+      providentFund: pf,
+      professionalTax: pt,
+      tdsTax: tds,
+      otherDeductions: other,
+      totalDeductions: deductions,
+      netSalary: net,
+      netSalaryInWords: numberToIndianWords(net),
+      paymentStatus: data.paymentStatus || 'UNPAID',
+    };
+
+    payslips.unshift(newSlip);
+    setStorage(KEYS.PAYSLIPS, payslips);
+
+    db.logAudit({
+      actorId: actor.id,
+      actorName: actor.name,
+      actorRole: actor.role,
+      action: 'PAYSLIP_CREATED',
+      entityType: 'PAYSLIP',
+      entityId: id,
+      details: `Generated individual custom payslip ${payslipNumber} for ${newSlip.employeeName}. Net: ₹${net.toLocaleString('en-IN')}`,
+    });
+
+    return newSlip;
+  },
+
+  deletePayslip: (
+    id: string,
+    actor: { id: string; name: string; role: UserRole }
+  ): void => {
+    const payslips = db.getPayslips();
+    const target = payslips.find((p) => p.id === id);
+    if (!target) return;
+
+    const remaining = payslips.filter((p) => p.id !== id);
+    setStorage(KEYS.PAYSLIPS, remaining);
+
+    db.logAudit({
+      actorId: actor.id,
+      actorName: actor.name,
+      actorRole: actor.role,
+      action: 'PAYSLIP_DELETED',
+      entityType: 'PAYSLIP',
+      entityId: id,
+      details: `Deleted payslip ${target.payslipNumber} for ${target.employeeName}`,
+    });
+  },
+
   // Audit Logs
   getAuditLogs: (): AuditLog[] => {
     return getStorage<AuditLog[]>(KEYS.AUDIT, initialAuditLogs);
@@ -622,4 +774,46 @@ export const db = {
     setStorage(KEYS.CURRENT_USER_ID, 'emp-001');
   },
 };
+
+export function numberToIndianWords(num: number): string {
+  if (!num || num <= 0) return 'Zero Rupees Only';
+  const a = [
+    '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+    'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
+  ];
+  const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+  function convertLessThanOneThousand(n: number): string {
+    let s = '';
+    if (n >= 100) {
+      s += a[Math.floor(n / 100)] + ' Hundred ';
+      n %= 100;
+    }
+    if (n >= 20) {
+      s += b[Math.floor(n / 10)] + ' ';
+      n %= 10;
+    }
+    if (n > 0) {
+      s += a[n] + ' ';
+    }
+    return s.trim();
+  }
+
+  let n = Math.round(num);
+  const crores = Math.floor(n / 10000000);
+  n %= 10000000;
+  const lakhs = Math.floor(n / 100000);
+  n %= 100000;
+  const thousands = Math.floor(n / 1000);
+  n %= 1000;
+  const remainder = n;
+
+  let res = '';
+  if (crores > 0) res += convertLessThanOneThousand(crores) + ' Crore ';
+  if (lakhs > 0) res += convertLessThanOneThousand(lakhs) + ' Lakh ';
+  if (thousands > 0) res += convertLessThanOneThousand(thousands) + ' Thousand ';
+  if (remainder > 0) res += convertLessThanOneThousand(remainder) + ' ';
+
+  return res.trim() + ' Rupees Only';
+}
 
