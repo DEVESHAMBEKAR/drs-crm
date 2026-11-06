@@ -73,8 +73,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // 1. Admin / Founder Check (Devesh Ambekar)
     if (
       (cleanIdentity === 'admin' ||
-        cleanIdentity === 'admin@deeprootstudios.ai' ||
+        cleanIdentity === 'admin@deeprootstudios.in' ||
+        cleanIdentity === 'founders@deeprootstudios.in' ||
         cleanIdentity === 'devesh' ||
+        cleanIdentity === 'devesh.ambekar@deeprootstudios.in' ||
+        cleanIdentity === 'admin@deeprootstudios.ai' ||
         cleanIdentity === 'devesh.ambekar@deeprootstudios.ai') &&
       cleanPass === 'admin123'
     ) {
@@ -98,7 +101,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // 2. HR Manager Check (Maroti Kadam)
     if (
       (cleanIdentity === 'hr' ||
+        cleanIdentity === 'hr@deeprootstudios.in' ||
         cleanIdentity === 'maroti' ||
+        cleanIdentity === 'maroti.kadam@deeprootstudios.in' ||
         cleanIdentity === 'maroti.kadam@deeprootstudios.ai' ||
         cleanIdentity === 'hr@deeprootstudios.ai') &&
       (cleanPass === 'admin123' || cleanPass === 'hr123')

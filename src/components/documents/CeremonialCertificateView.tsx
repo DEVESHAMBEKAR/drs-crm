@@ -24,7 +24,7 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
 
   const verifyUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/verify/${doc.verificationToken}`
-    : `https://deeprootstudios.ai/verify/${doc.verificationToken}`;
+    : `https://deeprootstudios.in/verify/${doc.verificationToken}`;
 
   useEffect(() => {
     QRCode.toDataURL(verifyUrl, {

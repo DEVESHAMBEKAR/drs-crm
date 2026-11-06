@@ -20,7 +20,7 @@ The easiest way to make this platform live for your company:
 
 2. Sign in to your [Vercel](https://vercel.com) account (using your GitHub account `DEVESHAMBEKAR`).
 3. Click **Deploy**. Vercel will automatically build the Next.js app and assign a free production URL (e.g., `https://drs-crm.vercel.app`).
-4. *(Optional)* Add your custom domain (such as `crm.deeprootstudios.ai` or `portal.deeprootstudios.ai`) in Vercel Project Settings → Domains.
+4. *(Optional)* Add your custom domain (such as `crm.deeprootstudios.in` or `portal.deeprootstudios.in`) in Vercel Project Settings → Domains.
 
 ---
 
@@ -34,7 +34,10 @@ The easiest way to make this platform live for your company:
 * **Corporate Identification Number (CIN):** `U72900KA2024PTC189201`
 * **Founder & CEO:** Devesh Ambekar
 * **Head of Human Resources & Operations:** Maroti Kadam
-* **Website:** https://deeprootstudios.ai
+* **Official Email:** founders@deeprootstudios.in
+* **HR Email:** hr@deeprootstudios.in
+* **Contact Phone:** +91 9579276597
+* **Website:** https://deeprootstudios.in
 
 ---
 

@@ -374,7 +374,7 @@ export default function CompanySettingsPage() {
               </label>
               <input
                 type="email"
-                placeholder="e.g. hr@deeprootstudios.ai or your zoho user"
+                placeholder="e.g. hr@deeprootstudios.in or founders@deeprootstudios.in"
                 value={settings.smtpEmail || ''}
                 onChange={(e) => setSettings({ ...settings, smtpEmail: e.target.value })}
                 className="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 font-mono text-xs"

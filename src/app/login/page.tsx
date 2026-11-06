@@ -101,7 +101,7 @@ export default function LoginPage() {
                   required
                   value={identity}
                   onChange={(e) => setIdentity(e.target.value)}
-                  placeholder="admin or user@deeprootstudios.ai"
+                  placeholder="admin or founders@deeprootstudios.in"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-black border border-neutral-300 dark:border-neutral-700 text-xs sm:text-sm text-black dark:text-white placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white transition-colors"
                 />
               </div>

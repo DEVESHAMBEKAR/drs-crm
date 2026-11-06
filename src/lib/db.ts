@@ -69,8 +69,28 @@ export const db = {
   // Company Settings
   getCompanySettings: (): CompanySettings => {
     const settings = getStorage<CompanySettings>(KEYS.SETTINGS, initialCompanySettings);
+    let changed = false;
     if (settings.address && settings.address.includes('Orion Tech Park')) {
       settings.address = 'World Trade Center, Kharadi, Pune, Maharashtra - 411014';
+      changed = true;
+    }
+    if (!settings.officialEmail || settings.officialEmail.includes('operations@') || settings.officialEmail.includes('.ai')) {
+      settings.officialEmail = 'founders@deeprootstudios.in';
+      changed = true;
+    }
+    if (!settings.hrEmail || settings.hrEmail.includes('maroti.kadam') || settings.hrEmail.includes('.ai')) {
+      settings.hrEmail = 'hr@deeprootstudios.in';
+      changed = true;
+    }
+    if (!settings.phone || settings.phone.includes('4567-8900')) {
+      settings.phone = '+91 9579276597';
+      changed = true;
+    }
+    if (!settings.website || settings.website.includes('.ai')) {
+      settings.website = 'https://deeprootstudios.in';
+      changed = true;
+    }
+    if (changed) {
       setStorage(KEYS.SETTINGS, settings);
     }
     return settings;
@@ -93,7 +113,22 @@ export const db = {
 
   // Employees
   getEmployees: (): EmployeeProfile[] => {
-    return getStorage<EmployeeProfile[]>(KEYS.EMPLOYEES, initialEmployees);
+    const list = getStorage<EmployeeProfile[]>(KEYS.EMPLOYEES, initialEmployees);
+    let changed = false;
+    list.forEach((e) => {
+      if (e.id === 'emp-001' && (e.email.includes('.ai') || e.email.includes('devesh.ambekar'))) {
+        e.email = 'founders@deeprootstudios.in';
+        changed = true;
+      }
+      if (e.id === 'emp-002' && (e.email.includes('.ai') || e.email.includes('maroti.kadam'))) {
+        e.email = 'hr@deeprootstudios.in';
+        changed = true;
+      }
+    });
+    if (changed) {
+      setStorage(KEYS.EMPLOYEES, list);
+    }
+    return list;
   },
   getEmployeeById: (id: string): EmployeeProfile | undefined => {
     return db.getEmployees().find((e) => e.id === id || e.employeeId === id);

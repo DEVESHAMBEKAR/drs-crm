@@ -38,7 +38,7 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
 
   const verifyUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/verify/${doc.verificationToken}`
-    : `https://deeprootstudios.ai/verify/${doc.verificationToken}`;
+    : `https://deeprootstudios.in/verify/${doc.verificationToken}`;
 
   useEffect(() => {
     QRCode.toDataURL(verifyUrl, {
@@ -481,7 +481,7 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
                     type="email"
                     value={emailCc}
                     onChange={(e) => setEmailCc(e.target.value)}
-                    placeholder="hr@deeprootstudios.ai"
+                    placeholder="hr@deeprootstudios.in"
                     className="w-full px-3 py-2 rounded-lg bg-white dark:bg-black border border-neutral-300 dark:border-neutral-700 text-xs text-black dark:text-white placeholder-neutral-400 focus:outline-none focus:border-black dark:focus:border-white"
                   />
                 </div>

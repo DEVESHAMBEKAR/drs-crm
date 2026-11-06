@@ -423,7 +423,7 @@ export default function EmployeesPage() {
                     <input
                       required
                       type="email"
-                      placeholder="name@deeprootstudios.ai"
+                      placeholder="name@deeprootstudios.in"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 text-xs focus:outline-none"

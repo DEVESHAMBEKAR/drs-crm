@@ -1488,7 +1488,7 @@ export default function PayrollPage() {
                   type="email"
                   value={emailCc}
                   onChange={(e) => setEmailCc(e.target.value)}
-                  placeholder="hr@deeprootstudios.ai"
+                  placeholder="hr@deeprootstudios.in"
                   className="w-full px-3 py-2 rounded-lg bg-white dark:bg-black border border-neutral-300 dark:border-neutral-700 text-xs text-black dark:text-white"
                 />
               </div>
