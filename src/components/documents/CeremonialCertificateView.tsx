@@ -138,8 +138,17 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
               Employee ID: {doc.employeeId} • {doc.designation}
             </p>
 
-            <p className="text-xs sm:text-sm font-sans leading-relaxed text-neutral-800 max-w-2xl mx-auto pt-2 text-justify">
-              In formal recognition of exemplary dedication, technical proficiency, and high-impact contributions to the <strong>Deep Root Studios</strong> operational division. Conferred with the highest appreciation of the Executive Leadership.
+            <p className="text-xs sm:text-sm font-sans leading-relaxed text-neutral-800 max-w-2xl mx-auto pt-2 text-center">
+              {doc.content?.customParagraph ||
+                (db.getTemplateById(doc.type)?.bodyMarkdown
+                  ? db.getTemplateById(doc.type)!.bodyMarkdown
+                      .replace(/{{employee_name}}/g, doc.employeeName || '')
+                      .replace(/{{employee_id}}/g, doc.employeeId || '')
+                      .replace(/{{designation}}/g, doc.designation || '')
+                      .replace(/{{department}}/g, doc.content?.department || '')
+                      .replace(/{{company_name}}/g, settings.companyName || 'Deep Root Studios Private Limited')
+                      .replace(/{{issue_date}}/g, doc.issueDate || (doc.createdAt ? doc.createdAt.split('T')[0] : ''))
+                  : 'In formal recognition of exemplary dedication, technical proficiency, and high-impact contributions to Deep Root Studios. Conferred with the highest appreciation of the Executive Leadership.')}
             </p>
           </div>
 
@@ -148,19 +157,19 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
             {/* HR Signatory */}
             <div className="text-center">
               <img
-                src="/assets/drs-signature.png"
-                alt="Maroti Kadam Signature"
+                src={settings.authorizedSignatorySignatureUrl || '/assets/drs-signature.png'}
+                alt="Authorized Signature"
                 className="h-12 w-auto object-contain mx-auto mb-1 filter contrast-125"
               />
               <div className="w-36 border-b border-black mb-1 mx-auto" />
-              <p className="text-xs font-bold text-black">Maroti Kadam</p>
-              <p className="text-[10px] text-neutral-600">Head of Human Resources & Operations</p>
+              <p className="text-xs font-bold text-black">{settings.authorizedSignatoryName || 'Maroti Kadam'}</p>
+              <p className="text-[10px] text-neutral-600">{settings.authorizedSignatoryTitle || 'Head of Human Resources & Operations'}</p>
             </div>
 
             {/* Official Company Seal in Center */}
             <div className="text-center">
               <img
-                src="/assets/drs-stamp.png"
+                src={settings.sealUrl || '/assets/drs-stamp.png'}
                 alt="Deep Root Studios Seal"
                 className="w-24 h-24 object-contain mx-auto filter contrast-125 opacity-90 rotate-[-3deg]"
               />
@@ -173,11 +182,11 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
             <div className="flex items-center gap-4">
               <div className="text-center">
                 <div className="h-12 flex items-end justify-center">
-                  <span className="font-serif italic font-bold text-base text-black">Devesh Ambekar</span>
+                  <span className="font-serif italic font-bold text-base text-black">{settings.founderName || 'Devesh Ambekar'}</span>
                 </div>
                 <div className="w-36 border-b border-black mb-1 mx-auto" />
-                <p className="text-xs font-bold text-black">Devesh Ambekar</p>
-                <p className="text-[10px] text-neutral-600">Founder & Managing Director / CEO</p>
+                <p className="text-xs font-bold text-black">{settings.founderName || 'Devesh Ambekar'}</p>
+                <p className="text-[10px] text-neutral-600">{settings.founderTitle || 'Founder & Managing Director / CEO'}</p>
               </div>
 
               {qrDataUrl && (

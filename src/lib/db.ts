@@ -171,7 +171,14 @@ export const db = {
 
   // Document Templates
   getTemplates: (): DocumentTemplate[] => {
-    return getStorage<DocumentTemplate[]>(KEYS.TEMPLATES, initialDocumentTemplates);
+    const stored = getStorage<DocumentTemplate[]>(KEYS.TEMPLATES, initialDocumentTemplates);
+    const missing = initialDocumentTemplates.filter((t) => !stored.some((s) => s.id === t.id));
+    if (missing.length > 0) {
+      const merged = [...stored, ...missing];
+      setStorage(KEYS.TEMPLATES, merged);
+      return merged;
+    }
+    return stored;
   },
   getTemplateById: (id: string): DocumentTemplate | undefined => {
     return db.getTemplates().find((t) => t.id === id || t.type === id);

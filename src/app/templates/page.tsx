@@ -41,12 +41,12 @@ export default function DocumentTemplatesPage() {
   if (!isFounder) {
     return (
       <div className="p-8 text-center space-y-4">
-        <Shield className="w-12 h-12 text-rose-500 mx-auto" />
+        <Shield className="w-12 h-12 text-black dark:text-white mx-auto" />
         <h2 className="text-xl font-bold">Founder Authorization Required</h2>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-neutral-500">
           Template management and legal terms configuration are restricted to the Super Admin / Founder.
         </p>
-        <Link href="/" className="text-teal-500 hover:underline text-sm">
+        <Link href="/" className="text-black dark:text-white underline text-sm">
           Return to Dashboard
         </Link>
       </div>
@@ -87,7 +87,6 @@ export default function DocumentTemplatesPage() {
     setTemplates(db.getTemplates());
     setSelectedTemplate(updated);
     setIsEditing(false);
-    alert(`Template "${updated.title}" successfully updated!`);
   };
 
   const placeholders = [
@@ -107,23 +106,23 @@ export default function DocumentTemplatesPage() {
     <div className="space-y-6">
       {/* Top Header */}
       <div>
-        <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2.5">
-          <FileCheck2 className="w-6 h-6 text-teal-500" />
+        <h1 className="text-2xl font-black tracking-tight text-black dark:text-white flex items-center gap-2.5">
+          <FileCheck2 className="w-6 h-6 text-black dark:text-white" />
           Document Template Engine
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
-          Configure standardized legal phrasing, dynamic placeholders, regulatory covenants and signatory mandates.
+        <p className="text-xs sm:text-sm text-neutral-500 mt-1">
+          Configure standardized corporate phrasing, dynamic placeholders, regulatory covenants and signatory mandates.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column: List of Templates */}
         <div className="space-y-2">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">
             Available Templates ({templates.length})
           </h2>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden divide-y divide-slate-100 dark:divide-slate-800 shadow-sm text-xs">
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl overflow-hidden divide-y divide-neutral-100 dark:divide-neutral-800 shadow-sm text-xs">
             {templates.map((tpl) => {
               const isSelected = selectedTemplate?.id === tpl.id;
               return (
@@ -132,17 +131,17 @@ export default function DocumentTemplatesPage() {
                   onClick={() => handleSelectTemplate(tpl)}
                   className={`w-full p-3.5 text-left flex items-start justify-between gap-2 transition-colors ${
                     isSelected
-                      ? 'bg-teal-500/10 dark:bg-teal-500/20 text-slate-900 dark:text-white border-l-4 border-l-teal-500'
-                      : 'hover:bg-slate-50 dark:hover:bg-slate-850 text-slate-700 dark:text-slate-300'
+                      ? 'bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white border-l-4 border-l-black dark:border-l-white font-semibold'
+                      : 'hover:bg-neutral-50 dark:hover:bg-neutral-850 text-neutral-700 dark:text-neutral-300'
                   }`}
                 >
                   <div>
                     <h4 className="font-bold">{tpl.title}</h4>
-                    <p className="text-[10px] text-slate-400 font-mono mt-0.5">{tpl.type}</p>
+                    <p className="text-[10px] text-neutral-400 font-mono mt-0.5">{tpl.type}</p>
                   </div>
                   <span
                     className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase ${
-                      tpl.isActive ? 'bg-emerald-500/10 text-emerald-500' : 'bg-slate-500/10 text-slate-400'
+                      tpl.isActive ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-black' : 'bg-neutral-200 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400'
                     }`}
                   >
                     {tpl.isActive ? 'Active' : 'Disabled'}
@@ -153,21 +152,21 @@ export default function DocumentTemplatesPage() {
           </div>
 
           {/* Placeholders Legend */}
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-2.5">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-1.5">
+          <div className="p-4 rounded-xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 space-y-2.5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-black dark:text-white flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
               Dynamic Placeholders
             </h3>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-neutral-500">
               Insert any of the following tags in template markdown to dynamically interpolate verified employee fields:
             </p>
             <div className="space-y-1.5 text-xs">
               {placeholders.map((p) => (
                 <div key={p.code} className="flex items-center justify-between">
-                  <code className="text-[11px] font-mono font-bold text-teal-600 dark:text-teal-400 bg-teal-500/10 px-1 py-0.2 rounded">
+                  <code className="text-[11px] font-mono font-bold text-black dark:text-white bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded">
                     {p.code}
                   </code>
-                  <span className="text-[10px] text-slate-500">{p.desc}</span>
+                  <span className="text-[10px] text-neutral-500">{p.desc}</span>
                 </div>
               ))}
             </div>
@@ -177,26 +176,26 @@ export default function DocumentTemplatesPage() {
         {/* Right Column: Template Detail & Editor */}
         <div className="lg:col-span-2">
           {selectedTemplate ? (
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm space-y-5">
+            <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 shadow-sm space-y-5">
               {!isEditing ? (
                 <>
                   {/* View Mode Header */}
-                  <div className="flex items-start justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+                  <div className="flex items-start justify-between pb-4 border-b border-neutral-100 dark:border-neutral-800">
                     <div>
-                      <span className="text-[10px] font-mono font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">
+                      <span className="text-[10px] font-mono font-bold text-neutral-500 uppercase tracking-wider">
                         {selectedTemplate.type}
                       </span>
-                      <h2 className="text-xl font-black text-slate-900 dark:text-white mt-0.5">
+                      <h2 className="text-xl font-black text-black dark:text-white mt-0.5">
                         {selectedTemplate.title}
                       </h2>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-neutral-500">
                         Category: {selectedTemplate.category} • Signatory: {selectedTemplate.signatoryTitle}
                       </p>
                     </div>
 
                     <button
                       onClick={handleStartEdit}
-                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-500 text-white shadow-md shadow-teal-500/20"
+                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-black text-white dark:bg-white dark:text-black hover:opacity-90 shadow-sm"
                     >
                       <Edit2 className="w-3.5 h-3.5" /> Edit Template
                     </button>
@@ -204,23 +203,23 @@ export default function DocumentTemplatesPage() {
 
                   {/* Body Content */}
                   <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">
                       Template Phrasing & Structure (Markdown)
                     </h4>
-                    <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 font-mono text-xs text-slate-800 dark:text-slate-200 whitespace-pre-line leading-relaxed">
+                    <div className="p-4 rounded-xl bg-neutral-50 dark:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 font-mono text-xs text-neutral-800 dark:text-neutral-200 whitespace-pre-line leading-relaxed">
                       {selectedTemplate.bodyMarkdown}
                     </div>
                   </div>
 
                   {/* Terms and conditions */}
                   <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">
                       Standard Terms & Regulatory Covenants
                     </h4>
-                    <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+                    <ul className="space-y-1.5 text-xs text-neutral-600 dark:text-neutral-400">
                       {selectedTemplate.termsAndConditions.map((term, i) => (
                         <li key={i} className="flex items-start gap-2">
-                          <CheckCircle className="w-3.5 h-3.5 text-teal-500 shrink-0 mt-0.5" />
+                          <CheckCircle className="w-3.5 h-3.5 text-black dark:text-white shrink-0 mt-0.5" />
                           <span>{term}</span>
                         </li>
                       ))}
@@ -230,17 +229,17 @@ export default function DocumentTemplatesPage() {
               ) : (
                 /* Edit Mode Form */
                 <form onSubmit={handleSaveEdit} className="space-y-4 text-xs">
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                  <div className="flex items-center justify-between pb-3 border-b border-neutral-100 dark:border-neutral-800">
+                    <h3 className="text-base font-bold text-black dark:text-white">
                       Edit {selectedTemplate.title}
                     </h3>
                     <div className="flex items-center gap-2">
-                      <label className="flex items-center gap-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      <label className="flex items-center gap-2 text-xs font-semibold text-neutral-700 dark:text-neutral-300">
                         <input
                           type="checkbox"
                           checked={editActive}
                           onChange={(e) => setEditActive(e.target.checked)}
-                          className="rounded text-teal-600"
+                          className="rounded text-black dark:text-white"
                         />
                         Active Template
                       </label>
@@ -248,7 +247,7 @@ export default function DocumentTemplatesPage() {
                   </div>
 
                   <div>
-                    <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block font-bold text-neutral-700 dark:text-neutral-300 mb-1">
                       Template Title *
                     </label>
                     <input
@@ -256,12 +255,12 @@ export default function DocumentTemplatesPage() {
                       type="text"
                       value={editTitle}
                       onChange={(e) => setEditTitle(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs focus:outline-none focus:border-teal-500"
+                      className="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs focus:outline-none focus:border-black dark:focus:border-white"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block font-bold text-neutral-700 dark:text-neutral-300 mb-1">
                       Body Markdown (use placeholders) *
                     </label>
                     <textarea
@@ -269,12 +268,12 @@ export default function DocumentTemplatesPage() {
                       rows={14}
                       value={editBody}
                       onChange={(e) => setEditBody(e.target.value)}
-                      className="w-full p-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-mono text-xs focus:outline-none focus:border-teal-500 leading-relaxed"
+                      className="w-full p-3 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 font-mono text-xs focus:outline-none focus:border-black dark:focus:border-white leading-relaxed"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block font-bold text-neutral-700 dark:text-neutral-300 mb-1">
                       Signatory Designation Title *
                     </label>
                     <input
@@ -282,21 +281,21 @@ export default function DocumentTemplatesPage() {
                       type="text"
                       value={editSignatoryTitle}
                       onChange={(e) => setEditSignatoryTitle(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs focus:outline-none focus:border-teal-500"
+                      className="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-xs focus:outline-none focus:border-black dark:focus:border-white"
                     />
                   </div>
 
-                  <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end gap-2">
+                  <div className="pt-3 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-end gap-2">
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="px-4 py-2 rounded-lg font-semibold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+                      className="px-4 py-2 rounded-lg font-semibold text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="px-5 py-2 rounded-lg font-bold bg-teal-600 hover:bg-teal-500 text-white shadow-md shadow-teal-500/20"
+                      className="px-5 py-2 rounded-lg font-bold bg-black text-white dark:bg-white dark:text-black hover:opacity-90 shadow-sm"
                     >
                       Save Template Changes
                     </button>
@@ -305,8 +304,8 @@ export default function DocumentTemplatesPage() {
               )}
             </div>
           ) : (
-            <div className="p-8 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
-              <p className="text-xs text-slate-500">Select a template on the left to inspect or edit.</p>
+            <div className="p-8 text-center bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl">
+              <p className="text-xs text-neutral-500">Select a template on the left to inspect or edit.</p>
             </div>
           )}
         </div>
@@ -314,4 +313,3 @@ export default function DocumentTemplatesPage() {
     </div>
   );
 }
-

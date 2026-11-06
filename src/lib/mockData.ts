@@ -33,6 +33,10 @@ export const initialCompanySettings: CompanySettings = {
   authorizedSignatorySignatureUrl: '/assets/drs-signature.png',
   sealUrl: '/assets/drs-stamp.png',
   documentPrefix: 'DRS',
+  smtpEmail: '',
+  smtpPassword: '',
+  smtpHost: 'smtp.zoho.in',
+  smtpPort: 465,
 };
 
 export const initialEmployees: EmployeeProfile[] = [
@@ -575,6 +579,96 @@ You are requested to adhere to the Performance Improvement Plan outlined by your
     isActive: true,
     signatoryTitle: 'Head of Human Resources & Operations',
     updatedAt: '2026-02-01T00:00:00Z',
+  },
+  {
+    id: 'tpl-009',
+    type: 'EMPLOYMENT_VERIFICATION',
+    title: 'Employment Verification Letter',
+    category: 'EMPLOYMENT',
+    bodyMarkdown: `### TO WHOMSOEVER IT MAY CONCERN
+
+This is to certify that **{{employee_name}}** (Employee ID: **{{employee_id}}**) is a bona fide, full-time employee of **Deep Root Studios Private Limited**, currently designated as **{{designation}}** in the **{{department}}** division.
+
+### Employment Particulars:
+- **Date of Joining:** {{joining_date}}
+- **Employment Status:** Active / Confirmed
+- **Current Annual CTC:** INR {{annual_ctc}}/-
+- **Work Location:** Bengaluru, Karnataka, India
+
+This certificate is issued at the specific request of the employee for official verification purposes (such as banking, housing, or regulatory processing) without any liability on the part of Deep Root Studios Private Limited or its signatories.`,
+    termsAndConditions: [
+      'Issued for official verification purposes only.',
+      'Document authenticity verifiable at deeprootstudios.ai/verify.',
+    ],
+    requiresFounderApproval: false,
+    isActive: true,
+    signatoryTitle: 'Head of Human Resources & Authorized Signatory',
+    updatedAt: '2026-02-05T00:00:00Z',
+  },
+  {
+    id: 'tpl-010',
+    type: 'RELIEVING_LETTER',
+    title: 'Official Relieving Order & Clearance Certificate',
+    category: 'SEPARATION',
+    bodyMarkdown: `Dear {{employee_name}},
+
+Sub: Relieving Order - Employee Code: **{{employee_id}}**
+
+With reference to your formal resignation letter, we hereby confirm that you have been relieved of your duties and responsibilities as **{{designation}}** with **Deep Root Studios Private Limited** effective from the close of business hours on **{{exit_date}}**.
+
+All company assets, confidential information, credentials, and repository access entrusted to you have been surrendered, and your Full and Final (F&F) settlement has been duly cleared by the Finance department.
+
+We appreciate your contributions to Deep Root Studios during your tenure and wish you the best in your future endeavors.`,
+    termsAndConditions: [
+      'Post-employment confidentiality covenants remain operative as per the signed employment contract.',
+      'Verifiable via DRS Central Operations Registry.',
+    ],
+    requiresFounderApproval: true,
+    isActive: true,
+    signatoryTitle: 'Head of Human Resources & Authorized Signatory',
+    updatedAt: '2026-02-05T00:00:00Z',
+  },
+  {
+    id: 'tpl-011',
+    type: 'RESIGNATION_ACCEPTANCE',
+    title: 'Resignation Acceptance & Notice Period Acknowledgment',
+    category: 'SEPARATION',
+    bodyMarkdown: `Dear {{employee_name}},
+
+Sub: Acceptance of Resignation - Employee Code: **{{employee_id}}**
+
+We acknowledge receipt of your resignation notice dated **{{resignation_date}}** from the position of **{{designation}}** in the **{{department}}** division.
+
+Management hereby accepts your resignation. In accordance with company policy, your notice period shall conclude on **{{last_working_day}}**, which shall be your Last Working Day (LWD) with Deep Root Studios.
+
+You are requested to complete the formal handover of all assigned tasks, code repositories, and documentation to **{{handover_assignee}}** prior to your release date.`,
+    termsAndConditions: [
+      'Full and Final settlement shall be credited within 30 days of the last working day following completion of all department clearances.',
+    ],
+    requiresFounderApproval: true,
+    isActive: true,
+    signatoryTitle: 'Head of Human Resources & Operations',
+    updatedAt: '2026-02-05T00:00:00Z',
+  },
+  {
+    id: 'tpl-012',
+    type: 'PROJECT_COMPLETION',
+    title: 'Certificate of Project Completion & Milestone Delivery',
+    category: 'CERTIFICATION',
+    bodyMarkdown: `### CERTIFICATE OF PROJECT DELIVERY EXCELLENCE
+
+Presented to **{{employee_name}}** (Employee ID: **{{employee_id}}**)
+
+In recognition of outstanding technical execution, operational precision, and key milestone delivery in the **{{project_name}}** initiative under the **{{department}}** division at Deep Root Studios.
+
+Their contributions to engineering scalable pipelines, quality assurance, and automated agent workflows have established industry benchmarks for our client deliveries.`,
+    termsAndConditions: [
+      'Conferred by Executive Leadership of Deep Root Studios Private Limited.',
+    ],
+    requiresFounderApproval: true,
+    isActive: true,
+    signatoryTitle: 'Founder & CEO',
+    updatedAt: '2026-02-05T00:00:00Z',
   },
 ];
 

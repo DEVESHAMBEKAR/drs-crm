@@ -352,6 +352,96 @@ export default function CompanySettingsPage() {
           </div>
         </div>
 
+        {/* Card 4: Zoho Mail SMTP Configuration */}
+        <div className="p-6 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm space-y-4">
+          <div className="pb-3 border-b border-neutral-100 dark:border-neutral-800 flex items-center justify-between">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-black dark:text-white flex items-center gap-2">
+              <Mail className="w-4 h-4" /> 4. Zoho Mail Dispatch Configuration (SMTP)
+            </h2>
+            <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
+              Zoho Mail Powered
+            </span>
+          </div>
+
+          <p className="text-xs text-neutral-500 leading-relaxed">
+            Configure your official Deep Root Studios Zoho Mail credentials so official documents (Offer Letters, Certificates, Payslips) can be emailed directly to employees from the portal with authentic PDF attachments.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <label className="block font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+                Company Zoho Email Address *
+              </label>
+              <input
+                type="email"
+                placeholder="e.g. hr@deeprootstudios.ai or your zoho user"
+                value={settings.smtpEmail || ''}
+                onChange={(e) => setSettings({ ...settings, smtpEmail: e.target.value })}
+                className="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 font-mono text-xs"
+              />
+              <span className="text-[10px] text-neutral-400 mt-1 block">
+                The sender email address matching your Zoho Mail account.
+              </span>
+            </div>
+
+            <div>
+              <label className="block font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+                Zoho App Password *
+              </label>
+              <input
+                type="password"
+                placeholder="••••••••••••••••"
+                value={settings.smtpPassword || ''}
+                onChange={(e) => setSettings({ ...settings, smtpPassword: e.target.value })}
+                className="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 font-mono text-xs"
+              />
+              <span className="text-[10px] text-neutral-400 mt-1 block">
+                Use an App-Specific Password if 2FA/MFA is enabled on Zoho.
+              </span>
+            </div>
+
+            <div>
+              <label className="block font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+                Zoho SMTP Server Host
+              </label>
+              <select
+                value={settings.smtpHost || 'smtp.zoho.in'}
+                onChange={(e) => setSettings({ ...settings, smtpHost: e.target.value })}
+                className="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700"
+              >
+                <option value="smtp.zoho.in">smtp.zoho.in (Zoho India Data Center - Recommended)</option>
+                <option value="smtp.zoho.com">smtp.zoho.com (Zoho Global US/EU Data Center)</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
+                SMTP Port (SSL/TLS)
+              </label>
+              <input
+                type="number"
+                value={settings.smtpPort || 465}
+                onChange={(e) => setSettings({ ...settings, smtpPort: parseInt(e.target.value) || 465 })}
+                className="w-full px-3 py-2 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 font-mono"
+              />
+              <span className="text-[10px] text-neutral-400 mt-1 block">
+                Port 465 (SSL secure, default for Zoho Mail).
+              </span>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-neutral-100 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-700/60 text-xs text-neutral-600 dark:text-neutral-400 space-y-1">
+            <p className="font-semibold text-black dark:text-white flex items-center gap-1.5">
+              <span>💡</span> How to generate a Zoho App Password:
+            </p>
+            <ol className="list-decimal pl-4 space-y-0.5 text-[11px]">
+              <li>Log in to your company Zoho account at <strong className="text-black dark:text-white">accounts.zoho.in</strong> (or zoho.com).</li>
+              <li>Go to <strong className="text-black dark:text-white">Security → App Passwords</strong>.</li>
+              <li>Click <strong className="text-black dark:text-white">Generate New Password</strong>, name it &quot;DRS Portal&quot;, and copy the 16-character code here.</li>
+            </ol>
+          </div>
+        </div>
+
         {/* Save Bar */}
         <div className="flex items-center justify-end gap-3 pt-2">
           {isSaved && (

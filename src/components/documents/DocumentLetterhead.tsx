@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { DrsLogo } from '../brand/DrsLogo';
 import { CompanySettings } from '@/types';
 import { db } from '@/lib/db';
 
@@ -21,56 +20,88 @@ export const DocumentLetterhead: React.FC<DocumentLetterheadProps> = ({
   const settings = propSettings || db.getCompanySettings();
 
   return (
-    <div className="border-b-2 border-black dark:border-white pb-5 mb-6 text-black select-text">
-      {/* Top Header Grid */}
-      <div className="flex items-start justify-between gap-4">
-        {/* Official DRS Logo & Wordmark */}
-        <div className="flex items-center gap-3">
+    <div className="pb-4 mb-6 text-black select-text" style={{ fontFamily: "'Times New Roman', 'Georgia', serif" }}>
+      {/* Top colored rule */}
+      <div className="w-full h-[3px] bg-black mb-4" />
+
+      {/* Header: Logo + Company Identity + Contact */}
+      <div className="flex items-start justify-between gap-6">
+        {/* Left: Logo + Company Name */}
+        <div className="flex items-start gap-3">
           <img
             src="/assets/drs-logo.jpg"
-            alt="Deep Root Studios Logo"
-            className="w-14 h-14 object-contain rounded border border-neutral-300 p-0.5"
+            alt="DRS Logo"
+            className="w-[56px] h-[56px] object-contain"
+            style={{ filter: 'grayscale(100%) contrast(1.5)' }}
           />
           <div>
-            <div className="flex items-center gap-1.5 leading-tight">
-              <span className="text-xl font-black tracking-tight text-black">DEEP ROOT</span>
-              <span className="text-xl font-light tracking-widest text-neutral-600">STUDIOS</span>
-            </div>
-            <p className="text-[10px] uppercase font-mono tracking-wider text-neutral-700 font-semibold mt-0.5">
+            <h1 style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '1px', lineHeight: '1.1', color: '#000', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
+              DEEP ROOT STUDIOS
+            </h1>
+            <p style={{ fontSize: '9px', letterSpacing: '3px', textTransform: 'uppercase', color: '#555', fontWeight: 600, marginTop: '2px', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
+              PRIVATE LIMITED
+            </p>
+            <p style={{ fontSize: '8px', letterSpacing: '1.5px', textTransform: 'uppercase', color: '#888', fontWeight: 500, marginTop: '3px', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
               End-to-End AI Operations Partner
             </p>
           </div>
         </div>
 
-        {/* Corporate Registration & Contact Block */}
-        <div className="text-right text-[10px] text-neutral-700 space-y-0.5 leading-relaxed max-w-xs font-sans">
-          <p className="font-bold text-black">{settings.companyName}</p>
-          <p>CIN: <span className="font-mono font-semibold">{settings.cinNumber}</span></p>
-          <p>{settings.address}</p>
-          <p>
-            Email: <span className="text-black font-medium">{settings.officialEmail}</span> • Web: {settings.website}
+        {/* Right: Registered Office & Contact */}
+        <div style={{ textAlign: 'right', maxWidth: '280px' }}>
+          <p style={{ fontSize: '9px', fontWeight: 700, color: '#000', letterSpacing: '0.5px', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
+            Registered Office:
           </p>
-          <p>Tel: {settings.phone}</p>
+          <p style={{ fontSize: '8.5px', color: '#444', lineHeight: '1.5', marginTop: '1px' }}>
+            {settings.address}
+          </p>
+          <p style={{ fontSize: '8.5px', color: '#444', marginTop: '2px' }}>
+            Tel: {settings.phone}
+          </p>
+          <p style={{ fontSize: '8.5px', color: '#444' }}>
+            Email: <span style={{ color: '#000', fontWeight: 500 }}>{settings.officialEmail}</span>
+          </p>
+          <p style={{ fontSize: '8.5px', color: '#444' }}>
+            Web: <span style={{ color: '#000', fontWeight: 500 }}>{settings.website}</span>
+          </p>
+          <p style={{ fontSize: '8px', color: '#666', fontFamily: 'monospace', marginTop: '3px', fontWeight: 600 }}>
+            CIN: {settings.cinNumber}
+          </p>
         </div>
       </div>
 
-      {/* Official Reference & Date Bar */}
-      <div className="mt-4 pt-3 border-t border-neutral-300 flex items-center justify-between text-xs">
+      {/* Thin rule separator */}
+      <div className="w-full h-[1px] bg-neutral-400 mt-4 mb-3" />
+
+      {/* Reference Line */}
+      <div className="flex items-center justify-between" style={{ fontSize: '10px' }}>
         <div>
-          <span className="text-neutral-500 font-medium">Ref No: </span>
-          <span className="font-mono font-bold text-black bg-neutral-100 px-2.5 py-0.5 rounded border border-neutral-300">
+          <span style={{ color: '#666' }}>Ref No.: </span>
+          <span style={{ fontWeight: 700, color: '#000', fontFamily: 'monospace', letterSpacing: '0.5px' }}>
             {documentNumber}
           </span>
         </div>
         <div>
-          <span className="text-neutral-500 font-medium">Date of Issue: </span>
-          <span className="font-semibold text-black">{issueDate}</span>
+          <span style={{ color: '#666' }}>Date: </span>
+          <span style={{ fontWeight: 600, color: '#000' }}>
+            {issueDate}
+          </span>
         </div>
       </div>
 
-      {/* Official Title Banner */}
-      <div className="mt-4 text-center">
-        <h2 className="text-lg font-black tracking-wider text-black uppercase underline decoration-black decoration-2 underline-offset-4">
+      {/* Document Title */}
+      <div className="mt-5 mb-1 text-center">
+        <h2 style={{
+          fontSize: '15px',
+          fontWeight: 800,
+          textTransform: 'uppercase',
+          letterSpacing: '2px',
+          color: '#000',
+          textDecoration: 'underline',
+          textUnderlineOffset: '4px',
+          textDecorationThickness: '1.5px',
+          fontFamily: "'Helvetica Neue', Arial, sans-serif",
+        }}>
           {documentTitle}
         </h2>
       </div>

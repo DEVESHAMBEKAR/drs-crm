@@ -65,6 +65,11 @@ export interface CompanySettings {
   authorizedSignatorySignatureUrl?: string;
   sealUrl?: string;
   documentPrefix: string;
+  // Zoho Mail SMTP Configuration
+  smtpEmail?: string;
+  smtpPassword?: string;
+  smtpHost?: string;
+  smtpPort?: number;
 }
 
 export interface EmployeeProfile {
