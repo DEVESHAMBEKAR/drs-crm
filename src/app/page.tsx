@@ -91,18 +91,16 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Top Banner / Welcome Bar */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 p-6 sm:p-8 text-white shadow-xl">
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-teal-500/10 to-transparent pointer-events-none" />
-        
+      {/* Top Banner / Welcome Bar in Monochrome Tech Aesthetic */}
+      <div className="relative overflow-hidden rounded-2xl bg-black text-white border border-neutral-800 p-6 sm:p-8 shadow-xl">
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-teal-500/20 text-teal-300 border border-teal-500/30 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-400" />
-                Deep Root Studios Operations Hub
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-white/10 text-white border border-white/20 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                Deep Root Studios Operations Platform
               </span>
-              <span className="text-xs text-slate-400 font-medium">
+              <span className="text-xs text-neutral-400 font-medium">
                 {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
               </span>
             </div>
@@ -110,18 +108,18 @@ export default function DashboardPage() {
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
               Welcome back, {currentUser?.fullName.split(' ')[0]}
             </h1>
-            <p className="text-sm text-slate-300 mt-1 max-w-2xl">
-              {isFounder && 'Executive overview: Company workforce, pending official document signatures, and payroll liability.'}
-              {role === 'HR_MANAGER' && 'People operations: Onboarding pipeline, attendance timesheets, and documentation drafting.'}
-              {isEmployeeOnly && 'Employee self-service: Track your official documents, monthly payslips, and attendance check-in.'}
+            <p className="text-xs sm:text-sm text-neutral-300 mt-1 max-w-2xl">
+              {isFounder && 'Founder Overview: Executive workforce oversight, document authorization, and monthly payroll liability.'}
+              {role === 'HR_MANAGER' && 'People Operations Hub: Employee registry, document issuance with stamp & signature, and attendance audits.'}
+              {isEmployeeOnly && 'Employee Self-Service: Track personal credentials, verify official documents, and view monthly payslips.'}
             </p>
           </div>
 
-          {/* Quick Check-in pill for all employees */}
-          <div className="flex items-center gap-3 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 backdrop-blur-sm">
+          {/* Quick Check-in pill */}
+          <div className="flex items-center gap-3 bg-neutral-900/90 p-3 rounded-xl border border-neutral-800 backdrop-blur-sm">
             <div className="text-right">
-              <p className="text-[10px] uppercase font-bold text-slate-400">Today's Attendance</p>
-              <p className="text-xs font-semibold text-teal-400">
+              <p className="text-[10px] uppercase font-bold text-neutral-400">Today's Attendance</p>
+              <p className="text-xs font-bold text-white">
                 {userTodayAtt ? `${userTodayAtt.checkIn} (${userTodayAtt.workMode})` : 'Not Checked In'}
               </p>
             </div>
@@ -129,13 +127,13 @@ export default function DashboardPage() {
               <div className="flex gap-1.5">
                 <button
                   onClick={() => handleQuickCheckIn('OFFICE')}
-                  className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-teal-600 hover:bg-teal-500 text-white transition-all shadow-sm"
+                  className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-white text-black hover:bg-neutral-200 transition-all shadow-sm"
                 >
                   Office
                 </button>
                 <button
                   onClick={() => handleQuickCheckIn('REMOTE')}
-                  className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-teal-300 border border-teal-500/30 transition-all"
+                  className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-neutral-800 hover:bg-neutral-700 text-white border border-neutral-700 transition-all"
                 >
                   Remote
                 </button>
@@ -143,13 +141,13 @@ export default function DashboardPage() {
             ) : !userTodayAtt.checkOut ? (
               <button
                 onClick={handleQuickCheckOut}
-                className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-600 hover:bg-amber-500 text-white transition-all shadow-sm"
+                className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-black hover:bg-neutral-200 transition-all shadow-sm"
               >
                 Check Out
               </button>
             ) : (
-              <span className="text-xs font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-1 rounded-lg">
-                Completed ({userTodayAtt.workingHours} hrs)
+              <span className="text-xs font-bold text-white bg-neutral-800 border border-neutral-700 px-2.5 py-1 rounded-lg">
+                Done ({userTodayAtt.workingHours} hrs)
               </span>
             )}
           </div>
@@ -160,131 +158,128 @@ export default function DashboardPage() {
       {!isEmployeeOnly && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Card 1: Headcount */}
-          <div className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-teal-500/40 transition-all">
+          <div className="p-5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm hover:border-black dark:hover:border-white transition-all">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Headcount</span>
-              <div className="p-2 rounded-lg bg-teal-500/10 text-teal-600 dark:text-teal-400">
+              <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Total Headcount</span>
+              <div className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white">
                 <Users className="w-4 h-4" />
               </div>
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+              <span className="text-2xl sm:text-3xl font-black text-black dark:text-white">
                 {totalEmployees}
               </span>
-              <span className="text-xs font-semibold text-emerald-500 flex items-center">
-                <TrendingUp className="w-3 h-3 mr-0.5" />
+              <span className="text-xs font-semibold text-neutral-600 dark:text-neutral-400 flex items-center">
                 Active: {activeEmployees}
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 mt-1">
+            <p className="text-[11px] text-neutral-500 mt-1">
               {totalInterns} Interns • {pendingOnboarding} Pending Onboarding
             </p>
           </div>
 
           {/* Card 2: Documents Engine */}
-          <div className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-teal-500/40 transition-all">
+          <div className="p-5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm hover:border-black dark:hover:border-white transition-all">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Documents</span>
-              <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+              <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Documents</span>
+              <div className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white">
                 <FileText className="w-4 h-4" />
               </div>
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+              <span className="text-2xl sm:text-3xl font-black text-black dark:text-white">
                 {totalDocs}
               </span>
               {pendingDocs.length > 0 ? (
-                <span className="text-xs font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
-                  {pendingDocs.length} Pending Approval
+                <span className="text-xs font-bold text-black dark:text-white bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 rounded-full border border-neutral-300 dark:border-neutral-700">
+                  {pendingDocs.length} Pending Sign-off
                 </span>
               ) : (
-                <span className="text-xs text-slate-500 font-medium">All approved</span>
+                <span className="text-xs text-neutral-500 font-medium">All approved</span>
               )}
             </div>
-            <p className="text-[11px] text-slate-500 mt-1">
-              Offers, Appointments & Certificates
+            <p className="text-[11px] text-neutral-500 mt-1">
+              With Stamp, Seal & QR Code
             </p>
           </div>
 
           {/* Card 3: Monthly Payroll */}
-          <div className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-teal-500/40 transition-all">
+          <div className="p-5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm hover:border-black dark:hover:border-white transition-all">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Current Payroll</span>
-              <div className="p-2 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400">
+              <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Current Payroll</span>
+              <div className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white">
                 <CreditCard className="w-4 h-4" />
               </div>
             </div>
             <div className="mt-3 flex items-baseline gap-1">
-              <span className="text-xs font-bold text-slate-400">INR</span>
-              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+              <span className="text-xs font-bold text-neutral-400">INR</span>
+              <span className="text-2xl sm:text-3xl font-black text-black dark:text-white">
                 {latestPayroll ? (latestPayroll.totalNetPayout / 100000).toFixed(2) : '0'}L
               </span>
-              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
-                latestPayroll?.status === 'PAID' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-amber-500/10 text-amber-500'
-              }`}>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded uppercase bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white">
                 {latestPayroll?.status || 'NO CYCLE'}
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 mt-1">
+            <p className="text-[11px] text-neutral-500 mt-1">
               Cycle: {latestPayroll ? `${latestPayroll.month}/${latestPayroll.year}` : 'N/A'} • {latestPayroll?.payslipsCount || 0} Payslips
             </p>
           </div>
 
           {/* Card 4: Leave Requests */}
-          <div className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-teal-500/40 transition-all">
+          <div className="p-5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm hover:border-black dark:hover:border-white transition-all">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Leave Queue</span>
-              <div className="p-2 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
+              <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Leave Queue</span>
+              <div className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white">
                 <CalendarCheck className="w-4 h-4" />
               </div>
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+              <span className="text-2xl sm:text-3xl font-black text-black dark:text-white">
                 {pendingLeaves.length}
               </span>
-              <span className="text-xs font-medium text-slate-500">
+              <span className="text-xs font-medium text-neutral-500">
                 {pendingLeaves.length === 1 ? 'request waiting' : 'requests waiting'}
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 mt-1">
-              Requires HR / Manager verification
+            <p className="text-[11px] text-neutral-500 mt-1">
+              Requires HR (Maroti) verification
             </p>
           </div>
         </div>
       )}
 
-      {/* EMPLOYEE SELF-SERVICE METRICS SECTION */}
+      {/* EMPLOYEE SELF-SERVICE SECTION */}
       {isEmployeeOnly && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Casual Leave Balance</span>
+          <div className="p-5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Casual Leave Balance</span>
             <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-3xl font-black text-teal-600 dark:text-teal-400">
+              <span className="text-3xl font-black text-black dark:text-white">
                 {(userLeaveBal?.casualTotal || 12) - (userLeaveBal?.casualUsed || 0)}
               </span>
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-neutral-400">
                 days remaining of {userLeaveBal?.casualTotal || 12}
               </span>
             </div>
           </div>
-          <div className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Sick Leave Balance</span>
+          <div className="p-5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Sick Leave Balance</span>
             <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-3xl font-black text-teal-600 dark:text-teal-400">
+              <span className="text-3xl font-black text-black dark:text-white">
                 {(userLeaveBal?.sickTotal || 8) - (userLeaveBal?.sickUsed || 0)}
               </span>
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-neutral-400">
                 days remaining of {userLeaveBal?.sickTotal || 8}
               </span>
             </div>
           </div>
-          <div className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">My Issued Documents</span>
+          <div className="p-5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">My Issued Documents</span>
             <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-3xl font-black text-teal-600 dark:text-teal-400">
+              <span className="text-3xl font-black text-black dark:text-white">
                 {documents.filter((d) => d.employeeId === currentUser?.id && d.status === 'ISSUED').length}
               </span>
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-neutral-400">
                 verified documents available in vault
               </span>
             </div>
@@ -294,111 +289,109 @@ export default function DashboardPage() {
 
       {/* FOUNDER ACTION ALERT: DOCUMENTS REQUIRING APPROVAL */}
       {isFounder && pendingDocs.length > 0 && (
-        <div className="p-5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="p-5 rounded-xl bg-neutral-100 dark:bg-neutral-850 border border-neutral-300 dark:border-neutral-700 text-black dark:text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-lg bg-amber-500/20 text-amber-500">
+            <div className="p-2.5 rounded-lg bg-black text-white dark:bg-white dark:text-black">
               <AlertCircle className="w-5 h-5" />
             </div>
             <div>
               <h3 className="text-sm font-bold">
                 {pendingDocs.length} Official Document{pendingDocs.length > 1 ? 's' : ''} Awaiting Founder Signature
               </h3>
-              <p className="text-xs text-amber-700 dark:text-amber-300 mt-0.5">
-                Per DRS business rules, only the Founder can authorize and issue binding official letters.
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5">
+                Drafted by Head of HR Maroti Kadam; requires Devesh Ambekar (Founder) sign-off before release.
               </p>
             </div>
           </div>
 
           <Link
             href="/documents?filter=PENDING_APPROVAL"
-            className="px-4 py-2 rounded-lg text-xs font-bold bg-amber-600 hover:bg-amber-500 text-white shadow-md transition-all whitespace-nowrap"
+            className="px-4 py-2 rounded-lg text-xs font-bold bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition-all whitespace-nowrap shadow-sm"
           >
             Review & Authorize Now →
           </Link>
         </div>
       )}
 
-      {/* QUICK ACTIONS ROW */}
+      {/* QUICK OPERATIONS ROW */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-            Quick Operations
-          </h2>
-        </div>
+        <h2 className="text-xs font-bold uppercase tracking-wider text-neutral-500">
+          Quick Operations
+        </h2>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {isHR && (
             <Link
               href="/employees?action=new"
-              className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 hover:bg-teal-500/5 dark:hover:bg-teal-950/20 text-center transition-all group"
+              className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-black dark:hover:border-white text-center transition-all group"
             >
-              <div className="p-2.5 rounded-lg bg-teal-500/10 text-teal-600 dark:text-teal-400 group-hover:scale-110 transition-transform mb-2">
+              <div className="p-2.5 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white group-hover:scale-110 transition-transform mb-2">
                 <Users className="w-5 h-5" />
               </div>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Add Employee</span>
-              <span className="text-[10px] text-slate-400 mt-0.5">Register Profile</span>
+              <span className="text-xs font-bold text-black dark:text-white">Add Employee</span>
+              <span className="text-[10px] text-neutral-400 mt-0.5">Register Profile</span>
             </Link>
           )}
 
           {isHR && (
             <Link
               href="/documents?action=new"
-              className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 hover:bg-teal-500/5 dark:hover:bg-teal-950/20 text-center transition-all group"
+              className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-black dark:hover:border-white text-center transition-all group"
             >
-              <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform mb-2">
+              <div className="p-2.5 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white group-hover:scale-110 transition-transform mb-2">
                 <FileText className="w-5 h-5" />
               </div>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Offer / Letters</span>
-              <span className="text-[10px] text-slate-400 mt-0.5">Generate Official Doc</span>
+              <span className="text-xs font-bold text-black dark:text-white">Offer / Letters</span>
+              <span className="text-[10px] text-neutral-400 mt-0.5">With Seal & Sign</span>
             </Link>
           )}
 
           <Link
             href="/documents"
-            className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 hover:bg-teal-500/5 dark:hover:bg-teal-950/20 text-center transition-all group"
+            className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-black dark:hover:border-white text-center transition-all group"
           >
-            <div className="p-2.5 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform mb-2">
+            <div className="p-2.5 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white group-hover:scale-110 transition-transform mb-2">
               <FileCheck2 className="w-5 h-5" />
             </div>
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+            <span className="text-xs font-bold text-black dark:text-white">
               {isEmployeeOnly ? 'My Documents' : 'Document Vault'}
             </span>
-            <span className="text-[10px] text-slate-400 mt-0.5">PDFs & History</span>
+            <span className="text-[10px] text-neutral-400 mt-0.5">PDFs & History</span>
           </Link>
 
           <Link
             href="/payroll"
-            className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 hover:bg-teal-500/5 dark:hover:bg-teal-950/20 text-center transition-all group"
+            className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-black dark:hover:border-white text-center transition-all group"
           >
-            <div className="p-2.5 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform mb-2">
+            <div className="p-2.5 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white group-hover:scale-110 transition-transform mb-2">
               <CreditCard className="w-5 h-5" />
             </div>
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+            <span className="text-xs font-bold text-black dark:text-white">
               {isEmployeeOnly ? 'My Payslips' : 'Payroll Cycles'}
             </span>
-            <span className="text-[10px] text-slate-400 mt-0.5">Salary & Payslips</span>
+            <span className="text-[10px] text-neutral-400 mt-0.5">Salary & Payslips</span>
           </Link>
 
           <Link
             href="/attendance"
-            className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 hover:bg-teal-500/5 dark:hover:bg-teal-950/20 text-center transition-all group"
+            className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-black dark:hover:border-white text-center transition-all group"
           >
-            <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform mb-2">
+            <div className="p-2.5 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white group-hover:scale-110 transition-transform mb-2">
               <CalendarCheck className="w-5 h-5" />
             </div>
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Attendance</span>
-            <span className="text-[10px] text-slate-400 mt-0.5">Timesheet & Leaves</span>
+            <span className="text-xs font-bold text-black dark:text-white">Attendance</span>
+            <span className="text-[10px] text-neutral-400 mt-0.5">Timesheet & Leaves</span>
           </Link>
 
           <Link
             href="/verify"
-            className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 hover:bg-teal-500/5 dark:hover:bg-teal-950/20 text-center transition-all group"
+            className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-black dark:hover:border-white text-center transition-all group"
           >
-            <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform mb-2">
+            <div className="p-2.5 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white group-hover:scale-110 transition-transform mb-2">
               <QrCode className="w-5 h-5" />
             </div>
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Verify QR</span>
-            <span className="text-[10px] text-slate-400 mt-0.5">Public Portal</span>
+            <span className="text-xs font-bold text-black dark:text-white">Verify QR</span>
+            <span className="text-[10px] text-neutral-400 mt-0.5">Public Portal</span>
           </Link>
         </div>
       </div>
@@ -408,19 +401,19 @@ export default function DashboardPage() {
         {/* Left Column (2 Cols): Recent Official Documents */}
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              {isEmployeeOnly ? 'My Official Documents' : 'Recent Documents & Certificates'}
+            <h2 className="text-xs font-bold uppercase tracking-wider text-neutral-500">
+              {isEmployeeOnly ? 'My Official Documents' : 'Recent Documents & Credentials'}
             </h2>
             <Link
               href="/documents"
-              className="text-xs font-semibold text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-black dark:text-white hover:underline flex items-center gap-1"
             >
               View all ({documents.length}) <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-            <div className="divide-y divide-slate-100 dark:divide-slate-800/80">
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl overflow-hidden shadow-sm">
+            <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
               {(isEmployeeOnly
                 ? documents.filter((d) => d.employeeId === currentUser?.id)
                 : documents.slice(0, 5)
@@ -431,29 +424,21 @@ export default function DashboardPage() {
                 return (
                   <div
                     key={doc.id}
-                    className="p-4 flex items-center justify-between gap-4 hover:bg-slate-50 dark:hover:bg-slate-850/50 transition-colors"
+                    className="p-4 flex items-center justify-between gap-4 hover:bg-neutral-50 dark:hover:bg-neutral-850 transition-colors"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <div
-                        className={`p-2.5 rounded-lg border ${
-                          isApproved
-                            ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30'
-                            : isPending
-                            ? 'bg-amber-500/10 text-amber-500 border-amber-500/30'
-                            : 'bg-slate-500/10 text-slate-400 border-slate-500/30'
-                        }`}
-                      >
+                      <div className="p-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white">
                         <FileText className="w-4 h-4" />
                       </div>
                       <div className="min-w-0">
                         <Link
                           href={`/documents/${doc.id}`}
-                          className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-teal-500 truncate block"
+                          className="text-xs sm:text-sm font-bold text-black dark:text-white hover:underline truncate block"
                         >
                           {doc.title}
                         </Link>
-                        <p className="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
-                          <span className="font-mono text-teal-600 dark:text-teal-400 font-semibold">{doc.documentNumber}</span>
+                        <p className="text-[11px] text-neutral-500 flex items-center gap-2 mt-0.5">
+                          <span className="font-mono font-bold text-black dark:text-white">{doc.documentNumber}</span>
                           <span>•</span>
                           <span>{doc.employeeName}</span>
                           <span>•</span>
@@ -463,21 +448,13 @@ export default function DashboardPage() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span
-                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                          isApproved
-                            ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
-                            : isPending
-                            ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20'
-                            : 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
-                        }`}
-                      >
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white">
                         {doc.status.replace('_', ' ')}
                       </span>
 
                       <Link
                         href={`/documents/${doc.id}`}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                        className="p-1.5 rounded-lg text-neutral-500 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
                         title="View / Print Document"
                       >
                         <ArrowUpRight className="w-4 h-4" />
@@ -492,15 +469,14 @@ export default function DashboardPage() {
 
         {/* Right Column: Company Announcements & Live Audit Trail */}
         <div className="space-y-6">
-          {/* Announcements Feed */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-neutral-500">
                 Announcements
               </h2>
               <Link
                 href="/announcements"
-                className="text-xs font-semibold text-teal-600 dark:text-teal-400 hover:underline"
+                className="text-xs font-bold text-black dark:text-white hover:underline"
               >
                 Feed →
               </Link>
@@ -510,18 +486,18 @@ export default function DashboardPage() {
               {announcements.slice(0, 2).map((ann) => (
                 <div
                   key={ann.id}
-                  className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm"
+                  className="p-4 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm"
                 >
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-teal-500/10 text-teal-500 border border-teal-500/20">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-black dark:text-white border border-neutral-200 dark:border-neutral-700">
                       {ann.category}
                     </span>
-                    <span className="text-[10px] text-slate-400">{ann.date}</span>
+                    <span className="text-[10px] text-neutral-400">{ann.date}</span>
                   </div>
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100">
+                  <h4 className="text-xs font-bold text-black dark:text-white">
                     {ann.title}
                   </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                  <p className="text-[11px] text-neutral-600 dark:text-neutral-400 mt-1 line-clamp-2">
                     {ann.content}
                   </p>
                 </div>
@@ -533,32 +509,32 @@ export default function DashboardPage() {
           {isFounder && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <h2 className="text-xs font-bold uppercase tracking-wider text-neutral-500">
                   Security & Audit Trail
                 </h2>
                 <Link
                   href="/announcements?tab=audit"
-                  className="text-xs font-semibold text-teal-600 dark:text-teal-400 hover:underline"
+                  className="text-xs font-bold text-black dark:text-white hover:underline"
                 >
                   All Logs →
                 </Link>
               </div>
 
-              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 divide-y divide-slate-100 dark:divide-slate-800/80 shadow-sm text-xs">
+              <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-3 divide-y divide-neutral-100 dark:divide-neutral-800 shadow-sm text-xs">
                 {auditLogs.slice(0, 3).map((log) => (
                   <div key={log.id} className="py-2.5 first:pt-0 last:pb-0">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-[10px] font-bold text-teal-600 dark:text-teal-400">
+                      <span className="font-mono text-[10px] font-bold text-black dark:text-white">
                         {log.action}
                       </span>
-                      <span className="text-[10px] text-slate-400">
+                      <span className="text-[10px] text-neutral-400">
                         {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-1 line-clamp-1">
+                    <p className="text-[11px] text-neutral-700 dark:text-neutral-300 mt-1 line-clamp-1">
                       {log.details}
                     </p>
-                    <p className="text-[10px] text-slate-400 mt-0.5">
+                    <p className="text-[10px] text-neutral-500 mt-0.5">
                       By {log.actorName} ({log.actorRole})
                     </p>
                   </div>
@@ -571,4 +547,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-

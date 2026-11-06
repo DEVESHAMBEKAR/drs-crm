@@ -15,6 +15,7 @@ import {
   Search,
   Bell,
   CheckCircle,
+  LogOut,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -24,73 +25,73 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onOpenQuickAction }) => {
-  const { role, switchRole, theme, toggleTheme, currentUser } = useAuth();
+  const { role, switchRole, theme, toggleTheme, currentUser, logout } = useAuth();
   const [showRoleMenu, setShowRoleMenu] = useState(false);
 
   const roles: { id: UserRole; title: string; subtitle: string; icon: any; color: string }[] = [
     {
       id: 'FOUNDER',
-      title: 'Founder / Super Admin',
-      subtitle: 'Full Approvals & Operations Control',
+      title: 'Devesh Ambekar',
+      subtitle: 'Founder & Managing Director / CEO',
       icon: Shield,
-      color: 'text-amber-400 bg-amber-500/10 border-amber-500/30',
+      color: 'text-black dark:text-white bg-neutral-100 dark:bg-neutral-800 border-neutral-300 dark:border-neutral-700',
     },
     {
       id: 'HR_MANAGER',
-      title: 'HR / Operations Manager',
-      subtitle: 'Employee Registry, Drafting & Payroll',
+      title: 'Maroti Kadam',
+      subtitle: 'Head of Human Resources & Operations',
       icon: Briefcase,
-      color: 'text-teal-400 bg-teal-500/10 border-teal-500/30',
+      color: 'text-black dark:text-white bg-neutral-100 dark:bg-neutral-800 border-neutral-300 dark:border-neutral-700',
     },
     {
       id: 'EMPLOYEE',
       title: 'Employee Portal',
       subtitle: 'Self-Service, Documents & Payslips',
       icon: User,
-      color: 'text-blue-400 bg-blue-500/10 border-blue-500/30',
+      color: 'text-neutral-600 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 border-neutral-300 dark:border-neutral-700',
     },
   ];
 
   return (
-    <header className="sticky top-0 z-30 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+    <header className="sticky top-0 z-30 h-16 bg-white/95 dark:bg-black/95 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 transition-colors">
       <div className="h-full px-4 lg:px-8 flex items-center justify-between gap-4">
-        {/* Left Side: Mobile Menu Button */}
+        {/* Left Side: Mobile Menu Button & Search */}
         <div className="flex items-center gap-3">
           <button
             onClick={onMenuToggle}
-            className="p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden"
+            className="p-2 rounded-lg text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 lg:hidden"
             aria-label="Toggle menu"
           >
             <Menu className="w-5 h-5" />
           </button>
 
           {/* Quick Search Bar */}
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-slate-400 w-64 lg:w-80 text-xs">
-            <Search className="w-3.5 h-3.5 text-slate-400" />
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-500 w-64 lg:w-80 text-xs">
+            <Search className="w-3.5 h-3.5 text-neutral-400" />
             <input
               type="text"
               placeholder="Search employees, documents, payslips..."
-              className="bg-transparent border-none outline-none text-slate-800 dark:text-slate-200 placeholder-slate-400 w-full text-xs"
+              className="bg-transparent border-none outline-none text-black dark:text-white placeholder-neutral-400 w-full text-xs"
             />
-            <kbd className="hidden lg:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-300 rounded border border-slate-300 dark:border-slate-600">
+            <kbd className="hidden lg:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded border border-neutral-300 dark:border-neutral-700">
               ⌘K
             </kbd>
           </div>
         </div>
 
-        {/* Right Side: Role Switcher, Quick Action, Theme Toggle */}
+        {/* Right Side: Role Persona Switcher, Quick Action, Theme Toggle */}
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Persona Switcher Pill */}
           <div className="relative">
             <button
               onClick={() => setShowRoleMenu(!showRoleMenu)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700/80 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 transition-all shadow-sm"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 border-neutral-300 dark:border-neutral-700 text-black dark:text-white transition-all shadow-sm"
               title="Switch role persona to evaluate permissions"
             >
-              <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
-              <span className="hidden md:inline text-slate-500 dark:text-slate-400">Persona:</span>
-              <span className="font-semibold text-teal-600 dark:text-teal-400">
-                {role === 'FOUNDER' ? '👑 Founder' : role === 'HR_MANAGER' ? '💼 HR Manager' : '👤 Employee'}
+              <span className="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse" />
+              <span className="hidden md:inline text-neutral-500">Active User:</span>
+              <span className="font-bold">
+                {role === 'FOUNDER' ? '👑 Devesh Ambekar (Founder)' : role === 'HR_MANAGER' ? '💼 Maroti Kadam (HR)' : '👤 Employee'}
               </span>
             </button>
 
@@ -101,13 +102,13 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onOpenQuickAction 
                   className="fixed inset-0 z-40"
                   onClick={() => setShowRoleMenu(false)}
                 />
-                <div className="absolute right-0 mt-2 w-72 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-800/80 mb-1">
-                    <p className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                <div className="absolute right-0 mt-2 w-72 rounded-xl bg-white dark:bg-black border border-neutral-200 dark:border-neutral-800 shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="px-3 py-2 border-b border-neutral-100 dark:border-neutral-800 mb-1">
+                    <p className="text-xs font-bold text-black dark:text-white uppercase tracking-wider">
                       Switch Role Persona
                     </p>
-                    <p className="text-[11px] text-slate-500">
-                      Test DRS role-based controls and permissions
+                    <p className="text-[11px] text-neutral-500">
+                      Evaluate DRS role-based controls and permissions
                     </p>
                   </div>
 
@@ -125,8 +126,8 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onOpenQuickAction 
                           }}
                           className={`w-full flex items-start gap-3 p-2.5 rounded-lg text-left transition-colors ${
                             isSelected
-                              ? 'bg-teal-500/10 dark:bg-teal-500/20 text-slate-900 dark:text-white border border-teal-500/30'
-                              : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                              ? 'bg-neutral-100 dark:bg-neutral-900 text-black dark:text-white border border-neutral-300 dark:border-neutral-700'
+                              : 'hover:bg-neutral-50 dark:hover:bg-neutral-900/60 text-neutral-700 dark:text-neutral-300'
                           }`}
                         >
                           <div className={`p-1.5 rounded-md border ${r.color}`}>
@@ -134,18 +135,33 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onOpenQuickAction 
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between">
-                              <span className="text-xs font-semibold">{r.title}</span>
+                              <span className="text-xs font-bold">{r.title}</span>
                               {isSelected && (
-                                <CheckCircle className="w-3.5 h-3.5 text-teal-500" />
+                                <CheckCircle className="w-3.5 h-3.5 text-black dark:text-white" />
                               )}
                             </div>
-                            <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            <p className="text-[10px] text-neutral-500 mt-0.5">
                               {r.subtitle}
                             </p>
                           </div>
                         </button>
                       );
                     })}
+                  </div>
+
+                  {/* Sign Out Option */}
+                  <div className="pt-2 mt-2 border-t border-neutral-100 dark:border-neutral-800">
+                    <button
+                      onClick={() => {
+                        setShowRoleMenu(false);
+                        logout();
+                        window.location.href = '/login';
+                      }}
+                      className="w-full flex items-center gap-2.5 p-2 rounded-lg text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-red-500/10 transition-colors"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span>Sign Out</span>
+                    </button>
                   </div>
                 </div>
               </>
@@ -156,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onOpenQuickAction 
           {onOpenQuickAction && (
             <button
               onClick={onOpenQuickAction}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white shadow-md shadow-teal-500/20 transition-all active:scale-95"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-black text-white dark:bg-white dark:text-black hover:opacity-90 shadow-sm transition-all active:scale-95"
             >
               <Plus className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Quick Action</span>
@@ -166,18 +182,29 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onOpenQuickAction 
           {/* Dark / Light Mode Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="p-2 rounded-lg text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors"
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
             {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
+              <Sun className="w-4 h-4 text-white" />
             ) : (
-              <Moon className="w-4 h-4 text-slate-700" />
+              <Moon className="w-4 h-4 text-black" />
             )}
+          </button>
+
+          {/* Direct Sign Out Button */}
+          <button
+            onClick={() => {
+              logout();
+              window.location.href = '/login';
+            }}
+            className="p-2 rounded-lg text-neutral-500 hover:text-red-600 dark:text-neutral-400 dark:hover:text-red-400 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors"
+            title="Sign Out"
+          >
+            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </div>
     </header>
   );
 };
-

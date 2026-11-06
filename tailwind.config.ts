@@ -10,33 +10,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // High contrast Black & White Palette
         drs: {
-          50: "#f0fdf9",
-          100: "#ccfbef",
-          200: "#99f6df",
-          300: "#5eead4",
-          400: "#2dd4bf",
-          500: "#14b8a6", // DRS Signature Teal / Emerald
-          600: "#0d9488",
-          700: "#0f766e",
-          800: "#115e59",
-          900: "#134e4a",
-          950: "#042f2e",
-        },
-        obsidian: {
-          800: "#181b22",
-          850: "#14171d",
-          900: "#0f1115",
-          950: "#090a0d",
+          50: "#fafafa",
+          100: "#f5f5f5",
+          200: "#e5e5e5",
+          300: "#d4d4d4",
+          400: "#a3a3a3",
+          500: "#737373",
+          600: "#525252",
+          700: "#404040",
+          800: "#262626",
+          900: "#171717",
+          950: "#0a0a0a",
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        mono: ["var(--font-roboto-mono)", "monospace"],
+        sans: ["var(--font-inter)", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        mono: ["var(--font-roboto-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
       },
     },
   },
   plugins: [],
 };
 export default config;
-

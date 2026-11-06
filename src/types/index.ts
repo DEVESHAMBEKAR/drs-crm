@@ -270,3 +270,106 @@ export interface Announcement {
   date: string;
 }
 
+// ==========================================
+// PROJECTS & TASKS (Core AI Operations)
+// ==========================================
+export type ProjectCategory = 
+  | 'DATA_ANNOTATION'
+  | 'AI_EVALUATION'
+  | 'AI_AGENTS'
+  | 'WORKFLOW_AUTOMATION';
+
+export type ProjectStatus = 'PLANNING' | 'ACTIVE' | 'REVIEW' | 'COMPLETED' | 'ON_HOLD';
+
+export type TaskStatus = 'BACKLOG' | 'TODO' | 'IN_PROGRESS' | 'IN_REVIEW' | 'DONE';
+
+export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+
+export interface ProjectTask {
+  id: string;
+  projectId: string;
+  title: string;
+  description: string;
+  assigneeId: string;
+  assigneeName: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+  dueDate: string;
+  createdAt: string;
+}
+
+export interface Project {
+  id: string;
+  code: string; // e.g. DRS-PRJ-01
+  name: string;
+  category: ProjectCategory;
+  description: string;
+  leadId: string;
+  leadName: string;
+  status: ProjectStatus;
+  startDate: string;
+  targetEndDate: string;
+  clientName?: string;
+  tasksCount: number;
+  completedTasksCount: number;
+}
+
+// ==========================================
+// ONBOARDING & OFFBOARDING LIFECYCLE
+// ==========================================
+export interface OnboardingItem {
+  id: string;
+  title: string;
+  category: 'DOCUMENTATION' | 'IT_HARDWARE' | 'CREDENTIALS' | 'COMPLIANCE' | 'ORIENTATION';
+  isCompleted: boolean;
+  completedAt?: string;
+  verifiedBy?: string;
+}
+
+export interface OnboardingRecord {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  designation: string;
+  department: string;
+  joiningDate: string;
+  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
+  items: OnboardingItem[];
+}
+
+export interface OffboardingRecord {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  designation: string;
+  resignationDate: string;
+  lastWorkingDay: string;
+  noticePeriodDays: number;
+  reason: string;
+  status: 'INITIATED' | 'CLEARANCE_PENDING' | 'SETTLED' | 'RELIEVED';
+  itAssetsReturned: boolean;
+  accessRevoked: boolean;
+  duesCleared: boolean;
+  fnfAmountSettled: number;
+  relievingLetterIssued: boolean;
+  experienceCertificateIssued: boolean;
+}
+
+// ==========================================
+// ATTENDANCE CORRECTION REQUEST
+// ==========================================
+export interface AttendanceCorrectionRequest {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  date: string;
+  requestedCheckIn: string;
+  requestedCheckOut: string;
+  workMode: WorkMode;
+  reason: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  reviewedBy?: string;
+  reviewedAt?: string;
+}
+
+

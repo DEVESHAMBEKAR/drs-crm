@@ -18,27 +18,29 @@ export const initialCompanySettings: CompanySettings = {
   industry: 'Technology, Information & Internet',
   category: 'AI Solutions & AI Operations',
   tagline: 'End-to-End AI Operations Partner for Data, Annotation & Automation',
-  positioning: 'Leading technology partner specialized in LLM evaluation, dataset engineering, autonomous agents, and enterprise workflow automation.',
+  positioning: 'Industry-leading AI operations partner specializing in multi-modal data annotation, LLM benchmark evaluation & QA, autonomous AI agents, and enterprise workflow automation.',
   website: 'https://deeprootstudios.ai',
   officialEmail: 'operations@deeprootstudios.ai',
-  hrEmail: 'hr@deeprootstudios.ai',
+  hrEmail: 'maroti.kadam@deeprootstudios.ai',
   phone: '+91 (080) 4567-8900',
   address: 'Level 4, Orion Tech Park, 24th Main Road, HSR Layout, Sector 2, Bengaluru, Karnataka 560102, India',
   cinNumber: 'U72900KA2024PTC189201',
-  founderName: 'Devesh Sharma',
+  logoUrl: '/assets/drs-logo.jpg',
+  founderName: 'Devesh Ambekar',
   founderTitle: 'Founder & Managing Director',
-  authorizedSignatoryName: 'Devesh Sharma',
-  authorizedSignatoryTitle: 'Founder & CEO',
+  authorizedSignatoryName: 'Maroti Kadam',
+  authorizedSignatoryTitle: 'Head of Human Resources & Authorized Signatory',
+  authorizedSignatorySignatureUrl: '/assets/drs-signature.png',
+  sealUrl: '/assets/drs-stamp.png',
   documentPrefix: 'DRS',
-  authorizedSignatorySignatureUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=200&auto=format&fit=crop&q=60',
 };
 
 export const initialEmployees: EmployeeProfile[] = [
   {
     id: 'emp-001',
     employeeId: 'DRS-EMP-001',
-    fullName: 'Devesh Sharma',
-    email: 'devesh@deeprootstudios.ai',
+    fullName: 'Devesh Ambekar',
+    email: 'devesh.ambekar@deeprootstudios.ai',
     phone: '+91 98450 12345',
     role: 'FOUNDER',
     designation: 'Founder & Chief Executive Officer',
@@ -55,7 +57,7 @@ export const initialEmployees: EmployeeProfile[] = [
       country: 'India',
     },
     emergencyContact: {
-      name: 'Pooja Sharma',
+      name: 'Pooja Ambekar',
       phone: '+91 98450 12346',
       relation: 'Spouse',
     },
@@ -63,7 +65,7 @@ export const initialEmployees: EmployeeProfile[] = [
       bankName: 'HDFC Bank',
       accountNumberMasked: '•••• •••• 9012',
       ifscCode: 'HDFC0001234',
-      panNumber: 'ABCPS1234F',
+      panNumber: 'ABCPA1234F',
       uanPfNumber: '100982348712',
       annualCTC: 3600000,
       monthlyBasic: 150000,
@@ -73,9 +75,9 @@ export const initialEmployees: EmployeeProfile[] = [
       monthlyGross: 300000,
     },
     assignedResponsibilities: [
-      'Strategic corporate direction and client partnerships',
-      'Final approval authority for company documents and agreements',
-      'P&L management, payroll authorizations, and company compliance',
+      'Strategic corporate direction and enterprise AI partnerships',
+      'Final approval authority for executive appointments and operations',
+      'P&L management, company governance and statutory compliance',
     ],
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2026-01-10T00:00:00Z',
@@ -83,18 +85,18 @@ export const initialEmployees: EmployeeProfile[] = [
   {
     id: 'emp-002',
     employeeId: 'DRS-EMP-002',
-    fullName: 'Ananya Rao',
-    email: 'ananya.rao@deeprootstudios.ai',
+    fullName: 'Maroti Kadam',
+    email: 'maroti.kadam@deeprootstudios.ai',
     phone: '+91 97412 88990',
     role: 'HR_MANAGER',
-    designation: 'Head of People & Operations',
+    designation: 'Head of Human Resources & Operations',
     department: 'People Operations',
     employmentType: 'FULL_TIME',
     employmentStatus: 'ACTIVE',
-    dateOfJoining: '2024-03-15',
-    dateOfBirth: '1995-09-22',
+    dateOfJoining: '2024-02-15',
+    dateOfBirth: '1993-08-20',
     reportingManagerId: 'emp-001',
-    reportingManagerName: 'Devesh Sharma',
+    reportingManagerName: 'Devesh Ambekar',
     address: {
       street: '15/3, 5th Cross, Koramangala 4th Block',
       city: 'Bengaluru',
@@ -103,30 +105,30 @@ export const initialEmployees: EmployeeProfile[] = [
       country: 'India',
     },
     emergencyContact: {
-      name: 'Venkatesh Rao',
+      name: 'Sunita Kadam',
       phone: '+91 97412 88991',
-      relation: 'Father',
+      relation: 'Spouse',
     },
     financialDetails: {
       bankName: 'ICICI Bank',
       accountNumberMasked: '•••• •••• 4589',
       ifscCode: 'ICIC0000543',
-      panNumber: 'ANPPR8921K',
+      panNumber: 'ANPK8921K',
       uanPfNumber: '101234567890',
-      annualCTC: 1440000,
-      monthlyBasic: 60000,
-      monthlyHRA: 24000,
-      monthlySpecialAllowance: 26000,
-      monthlyConveyance: 10000,
-      monthlyGross: 120000,
+      annualCTC: 1680000,
+      monthlyBasic: 70000,
+      monthlyHRA: 28000,
+      monthlySpecialAllowance: 30000,
+      monthlyConveyance: 12000,
+      monthlyGross: 140000,
     },
     assignedResponsibilities: [
       'Full lifecycle recruitment, talent onboarding, and offboarding',
-      'Drafting official HR letters and documentation for founder approval',
+      'Employee records management, status changes, and employee modifications',
+      'Drafting, validating, and issuing authorized company letters with digital sign & seal',
       'Monthly attendance tracking, leave audits, and payroll preparation',
-      'Workplace culture and internal operational announcements',
     ],
-    createdAt: '2024-03-15T00:00:00Z',
+    createdAt: '2024-02-15T00:00:00Z',
     updatedAt: '2026-02-01T00:00:00Z',
   },
   {
@@ -143,7 +145,7 @@ export const initialEmployees: EmployeeProfile[] = [
     dateOfJoining: '2024-05-02',
     dateOfBirth: '1994-11-10',
     reportingManagerId: 'emp-001',
-    reportingManagerName: 'Devesh Sharma',
+    reportingManagerName: 'Devesh Ambekar',
     address: {
       street: '88, Silver Palms, Bellandur Outer Ring Road',
       city: 'Bengaluru',
@@ -172,7 +174,7 @@ export const initialEmployees: EmployeeProfile[] = [
     assignedResponsibilities: [
       'Design and orchestration of autonomous multi-agent operational workflows',
       'System integration with enterprise APIs and high-throughput pipelines',
-      'Technical mentorship for junior AI evaluation and automation developers',
+      'Technical mentorship for AI evaluation and automation developers',
     ],
     createdAt: '2024-05-02T00:00:00Z',
     updatedAt: '2026-02-01T00:00:00Z',
@@ -373,30 +375,30 @@ export const initialDocumentTemplates: DocumentTemplate[] = [
     category: 'ONBOARDING',
     bodyMarkdown: `Dear {{employee_name}},
 
-On behalf of **Deep Root Studios Private Limited (DRS)**, we are pleased to extend an offer of employment for the position of **{{designation}}** in the **{{department}}** department.
+On behalf of **Deep Root Studios Private Limited (DRS)**, we are pleased to extend an offer of employment for the position of **{{designation}}** in the **{{department}}** division.
 
 ### 1. Commencement of Employment
-Your employment with Deep Root Studios shall commence on **{{joining_date}}**. You will report directly to **{{reporting_manager}}** at our office located in Bangalore, or as mutually agreed upon for remote operations.
+Your employment with Deep Root Studios shall commence on **{{joining_date}}**. You will report directly to **{{reporting_manager}}** at our Bengaluru headquarters or as mutually approved for remote operations.
 
 ### 2. Remuneration & Compensation
-Your total Annual Cost to Company (CTC) will be **INR {{annual_ctc}}/-** (Rupees {{annual_ctc_in_words}}), payable on a monthly basis as per the structured breakdown annexed in Schedule A.
+Your total Annual Cost to Company (CTC) will be **INR {{annual_ctc}}/-** (Rupees {{annual_ctc_in_words}}), payable on a monthly basis in accordance with company payroll cycles.
 
 ### 3. Probationary Period
 You will be placed on probation for a period of **{{probation_period}}** from your date of joining. Upon successful evaluation of your performance, your employment will be confirmed in writing.
 
 ### 4. Code of Conduct & Confidentiality
-During your tenure with DRS, you will have access to proprietary AI datasets, evaluation benchmarks, and client methodologies. You are required to execute our comprehensive Non-Disclosure and IP Assignment Agreement prior to joining.
+During your tenure with DRS, you will have access to proprietary AI datasets, evaluation benchmarks, and client methodologies. You are required to execute our Non-Disclosure and IP Assignment Agreement prior to joining.
 
-We look forward to welcoming you to the Deep Root Studios team as we build scalable, next-generation AI operations.`,
+We look forward to welcoming you to the Deep Root Studios team as we engineer scalable, next-generation AI operations.`,
     termsAndConditions: [
-      'This offer is contingent upon satisfactory completion of background verification and document verification.',
+      'This offer is contingent upon satisfactory completion of background verification and KYC verification.',
       'Working hours are 9:30 AM to 6:30 PM, Monday through Friday.',
       'Notice period during probation is 30 days; post confirmation it is 60 days.',
       'The terms of this offer letter are strictly confidential.',
     ],
     requiresFounderApproval: true,
     isActive: true,
-    signatoryTitle: 'Founder & CEO',
+    signatoryTitle: 'Head of Human Resources & Authorized Signatory',
     updatedAt: '2026-01-10T00:00:00Z',
   },
   {
@@ -408,16 +410,16 @@ We look forward to welcoming you to the Deep Root Studios team as we build scala
 
 Sub: Letter of Appointment - Employee Code: **{{employee_id}}**
 
-We have pleasure in appointing you as **{{designation}}** in **{{department}}** with **Deep Root Studios Private Limited**, effective from your date of joining **{{joining_date}}**.
+We have pleasure in appointing you as **{{designation}}** in the **{{department}}** division with **Deep Root Studios Private Limited**, effective from your date of joining **{{joining_date}}**.
 
 ### Scope of Responsibilities
-You shall diligently and faithfully perform the responsibilities assigned to you by the management. You shall conform to the rules, regulations, and policies of Deep Root Studios in force from time to time.
+You shall diligently and faithfully perform the responsibilities assigned to you by the management. You shall conform to the rules, regulations, and operational policies of Deep Root Studios in force from time to time.
 
 ### Remuneration Structure
 Your monthly gross salary will be **INR {{monthly_gross}}/-** subject to applicable statutory deductions including Provident Fund, Professional Tax, and Income Tax (TDS).
 
 ### Intellectual Property Rights
-All models, scripts, pipelines, annotations, datasets, and intellectual work developed by you during the course of your employment shall be the sole and exclusive property of Deep Root Studios.
+All models, scripts, pipelines, annotations, datasets, and intellectual property developed by you during the course of your employment shall be the sole and exclusive property of Deep Root Studios.
 
 We congratulate you on your appointment and wish you a rewarding career with DRS.`,
     termsAndConditions: [
@@ -427,7 +429,7 @@ We congratulate you on your appointment and wish you a rewarding career with DRS
     ],
     requiresFounderApproval: true,
     isActive: true,
-    signatoryTitle: 'Founder & Managing Director',
+    signatoryTitle: 'Head of Human Resources & Authorized Signatory',
     updatedAt: '2026-01-15T00:00:00Z',
   },
   {
@@ -454,7 +456,7 @@ During this internship, you will gain hands-on operational experience with cutti
     ],
     requiresFounderApproval: true,
     isActive: true,
-    signatoryTitle: 'Founder & CEO',
+    signatoryTitle: 'Head of Human Resources & Authorized Signatory',
     updatedAt: '2026-01-10T00:00:00Z',
   },
   {
@@ -464,7 +466,7 @@ During this internship, you will gain hands-on operational experience with cutti
     category: 'CERTIFICATION',
     bodyMarkdown: `### TO WHOMSOEVER IT MAY CONCERN
 
-This is to certify that **{{employee_name}}** has successfully completed an intensive internship program with **Deep Root Studios** from **{{joining_date}}** to **{{exit_date}}** as an **{{designation}}** in the **{{department}}** division.
+This is to certify that **{{employee_name}}** has successfully completed an intensive internship program with **Deep Root Studios Private Limited** from **{{joining_date}}** to **{{exit_date}}** as an **{{designation}}** in the **{{department}}** division.
 
 During the internship tenure, {{employee_name}} actively contributed to:
 - Implementation and validation of AI evaluation benchmarks
@@ -571,7 +573,7 @@ You are requested to adhere to the Performance Improvement Plan outlined by your
     ],
     requiresFounderApproval: true,
     isActive: true,
-    signatoryTitle: 'Head of People & Operations',
+    signatoryTitle: 'Head of Human Resources & Operations',
     updatedAt: '2026-02-01T00:00:00Z',
   },
 ];
@@ -588,8 +590,8 @@ export const initialDocuments: DocumentRecord[] = [
     status: 'ISSUED',
     issueDate: '2024-04-15',
     verificationToken: 'v-drs-7821-4902-auth',
-    preparedBy: 'Ananya Rao',
-    approvedBy: 'Devesh Sharma',
+    preparedBy: 'Maroti Kadam',
+    approvedBy: 'Devesh Ambekar',
     approvedAt: '2024-04-16T10:30:00Z',
     content: {
       employee_name: 'Karthik Ramanathan',
@@ -597,7 +599,7 @@ export const initialDocuments: DocumentRecord[] = [
       designation: 'Lead AI Engineer & Automation Architect',
       department: 'AI Agents & Automation',
       joining_date: '02 May 2024',
-      reporting_manager: 'Devesh Sharma (Founder & CEO)',
+      reporting_manager: 'Devesh Ambekar (Founder & CEO)',
       annual_ctc: '19,20,000',
       annual_ctc_in_words: 'Nineteen Lakhs Twenty Thousand Only',
       probation_period: '3 Months',
@@ -616,8 +618,8 @@ export const initialDocuments: DocumentRecord[] = [
     status: 'ISSUED',
     issueDate: '2024-05-02',
     verificationToken: 'v-drs-8832-1109-apt',
-    preparedBy: 'Ananya Rao',
-    approvedBy: 'Devesh Sharma',
+    preparedBy: 'Maroti Kadam',
+    approvedBy: 'Devesh Ambekar',
     approvedAt: '2024-05-02T11:00:00Z',
     content: {
       employee_name: 'Karthik Ramanathan',
@@ -641,7 +643,7 @@ export const initialDocuments: DocumentRecord[] = [
     status: 'PENDING_APPROVAL',
     issueDate: '2026-02-05',
     verificationToken: 'v-drs-9923-0182-pending',
-    preparedBy: 'Ananya Rao',
+    preparedBy: 'Maroti Kadam',
     content: {
       employee_name: 'Tanvi Nair',
       employee_id: 'DRS-EMP-007',
@@ -653,7 +655,7 @@ export const initialDocuments: DocumentRecord[] = [
       annual_ctc_in_words: 'Seven Lakhs Twenty Thousand Only',
       probation_period: '3 Months',
     },
-    notes: 'Drafted by HR; awaiting Founder signature and official seal approval.',
+    notes: 'Drafted by HR (Maroti Kadam); awaiting Founder signature and official seal approval.',
     createdAt: '2026-02-05T14:30:00Z',
     updatedAt: '2026-02-05T14:30:00Z',
   },
@@ -668,8 +670,8 @@ export const initialDocuments: DocumentRecord[] = [
     status: 'ISSUED',
     issueDate: '2025-12-20',
     verificationToken: 'v-drs-4451-9011-app',
-    preparedBy: 'Ananya Rao',
-    approvedBy: 'Devesh Sharma',
+    preparedBy: 'Maroti Kadam',
+    approvedBy: 'Devesh Ambekar',
     approvedAt: '2025-12-20T17:00:00Z',
     content: {
       employee_name: 'Priya Sundaram',
@@ -691,8 +693,8 @@ export const initialDocuments: DocumentRecord[] = [
     status: 'ISSUED',
     issueDate: '2025-12-28',
     verificationToken: 'v-drs-3301-7782-int',
-    preparedBy: 'Ananya Rao',
-    approvedBy: 'Devesh Sharma',
+    preparedBy: 'Maroti Kadam',
+    approvedBy: 'Devesh Ambekar',
     approvedAt: '2025-12-29T11:00:00Z',
     content: {
       employee_name: 'Aditi Mukhopadhyay',
@@ -704,7 +706,7 @@ export const initialDocuments: DocumentRecord[] = [
       internship_end_date: '05 April 2026',
       stipend_amount: '30,000',
       reporting_manager: 'Karthik Ramanathan',
-      work_mode: 'Hybrid (Bangalore Office)',
+      work_mode: 'Hybrid (Bengaluru Office)',
     },
     createdAt: '2025-12-28T10:00:00Z',
     updatedAt: '2025-12-29T11:00:00Z',
@@ -715,7 +717,7 @@ export const initialAttendance: AttendanceRecord[] = [
   {
     id: 'att-101',
     employeeId: 'emp-001',
-    employeeName: 'Devesh Sharma',
+    employeeName: 'Devesh Ambekar',
     date: '2026-11-06',
     checkIn: '09:15',
     checkOut: '19:00',
@@ -726,13 +728,13 @@ export const initialAttendance: AttendanceRecord[] = [
   {
     id: 'att-102',
     employeeId: 'emp-002',
-    employeeName: 'Ananya Rao',
+    employeeName: 'Maroti Kadam',
     date: '2026-11-06',
-    checkIn: '09:25',
-    checkOut: '18:30',
+    checkIn: '09:20',
+    checkOut: '18:40',
     workMode: 'OFFICE',
     status: 'PRESENT',
-    workingHours: 9.08,
+    workingHours: 9.33,
   },
   {
     id: 'att-103',
@@ -796,7 +798,7 @@ export const initialLeaveBalances: LeaveBalance[] = [
     employeeId: 'emp-002',
     year: 2026,
     casualTotal: 12,
-    casualUsed: 2,
+    casualUsed: 1,
     sickTotal: 8,
     sickUsed: 1,
     earnedTotal: 15,
@@ -873,7 +875,7 @@ export const initialLeaveApplications: LeaveApplication[] = [
     reason: 'Viral fever and medical rest',
     status: 'APPROVED',
     appliedOn: '2026-10-23',
-    reviewedBy: 'Ananya Rao',
+    reviewedBy: 'Maroti Kadam',
     reviewedAt: '2026-10-23T16:00:00Z',
     reviewRemarks: 'Approved. Take rest.',
   },
@@ -885,13 +887,13 @@ export const initialPayrollCycles: PayrollRecord[] = [
     month: 10,
     year: 2026,
     totalEmployees: 6,
-    totalGrossPayout: 750000,
-    totalDeductions: 54200,
-    totalNetPayout: 695800,
+    totalGrossPayout: 770000,
+    totalDeductions: 55600,
+    totalNetPayout: 714400,
     status: 'PAID',
-    preparedBy: 'Ananya Rao',
+    preparedBy: 'Maroti Kadam',
     preparedAt: '2026-10-28T14:00:00Z',
-    approvedBy: 'Devesh Sharma',
+    approvedBy: 'Devesh Ambekar',
     approvedAt: '2026-10-30T10:00:00Z',
     paymentDate: '2026-10-31',
     paymentReference: 'NEFT-DRS-PAY-20261031-891',
@@ -902,11 +904,11 @@ export const initialPayrollCycles: PayrollRecord[] = [
     month: 11,
     year: 2026,
     totalEmployees: 6,
-    totalGrossPayout: 750000,
-    totalDeductions: 54200,
-    totalNetPayout: 695800,
+    totalGrossPayout: 770000,
+    totalDeductions: 55600,
+    totalNetPayout: 714400,
     status: 'DRAFT',
-    preparedBy: 'Ananya Rao',
+    preparedBy: 'Maroti Kadam',
     preparedAt: '2026-11-06T15:00:00Z',
     payslipsCount: 6,
   },
@@ -1009,36 +1011,36 @@ export const initialAuditLogs: AuditLog[] = [
   {
     id: 'audit-001',
     actorId: 'emp-001',
-    actorName: 'Devesh Sharma',
+    actorName: 'Devesh Ambekar',
     actorRole: 'FOUNDER',
     action: 'PAYROLL_APPROVED_AND_PAID',
     entityType: 'PAYROLL',
     entityId: 'pay-2026-10',
-    details: 'Approved October 2026 payroll cycle disbursement of INR 6,95,800 across 6 employees.',
+    details: 'Approved October 2026 payroll cycle disbursement of INR 7,14,400 across 6 employees.',
     ipAddress: '103.21.144.12',
     timestamp: '2026-10-30T10:00:00Z',
   },
   {
     id: 'audit-002',
     actorId: 'emp-002',
-    actorName: 'Ananya Rao',
+    actorName: 'Maroti Kadam',
     actorRole: 'HR_MANAGER',
     action: 'DOCUMENT_DRAFT_CREATED',
     entityType: 'DOCUMENT',
     entityId: 'doc-003',
-    details: 'Drafted Offer Letter for Tanvi Nair (AI Operations Associate); submitted for Founder approval.',
+    details: 'Drafted Offer Letter for Tanvi Nair (AI Operations Associate); submitted for Founder authorization.',
     ipAddress: '103.21.144.18',
     timestamp: '2026-02-05T14:30:00Z',
   },
   {
     id: 'audit-003',
     actorId: 'emp-001',
-    actorName: 'Devesh Sharma',
+    actorName: 'Devesh Ambekar',
     actorRole: 'FOUNDER',
     action: 'OFFICIAL_DOCUMENT_ISSUED',
     entityType: 'DOCUMENT',
     entityId: 'doc-001',
-    details: 'Signed and authorized Offer Letter DRS/OFF/2024/001 with digital verification QR token.',
+    details: 'Signed and authorized Offer Letter DRS/OFF/2024/001 with digital verification QR token, seal and Maroti Kadam signature.',
     ipAddress: '103.21.144.12',
     timestamp: '2024-04-16T10:30:00Z',
   },
@@ -1050,18 +1052,17 @@ export const initialAnnouncements: Announcement[] = [
     title: 'Deep Root Studios Achieves ISO/IEC 27001 AI Data Security Certification',
     category: 'CELEBRATION',
     content: 'We are thrilled to announce that Deep Root Studios has successfully concluded our enterprise security audit for automated data annotation and client model evaluation. Congratulations to all operations and engineering leads!',
-    authorName: 'Devesh Sharma (Founder)',
+    authorName: 'Devesh Ambekar (Founder)',
     isPinned: true,
     date: '2026-11-01',
   },
   {
     id: 'ann-002',
-    title: 'Updated Policy: Hybrid Work Guidelines & Check-in Logging',
+    title: 'Workplace Operations Update: Official Stamp & Documentation Protocol',
     category: 'POLICY',
-    content: 'All team members operating in hybrid mode are requested to log daily check-ins and work mode status through the DRS portal to ensure seamless cross-functional coverage.',
-    authorName: 'Ananya Rao (People Ops)',
+    content: 'All official employment agreements, internship credentials, and experience certificates will now carry the official DRS company seal stamp and authorized signature of Head of HR Maroti Kadam alongside Founder Devesh Ambekar.',
+    authorName: 'Maroti Kadam (People Ops)',
     isPinned: false,
-    date: '2026-11-03',
+    date: '2026-11-04',
   },
 ];
-

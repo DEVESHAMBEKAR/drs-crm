@@ -17,7 +17,9 @@ import {
   Settings,
   ShieldCheck,
   ChevronRight,
-  Sparkles,
+  FolderKanban,
+  ClipboardList,
+  LogOut,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -27,7 +29,7 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const pathname = usePathname();
-  const { role, isFounder, isHR, isEmployeeOnly, currentUser } = useAuth();
+  const { role, isFounder, isHR, isEmployeeOnly, currentUser, logout } = useAuth();
 
   // Dynamic counts for notification badges
   const pendingDocsCount = isFounder ? db.getDocuments().filter((d) => d.status === 'PENDING_APPROVAL').length : 0;
@@ -51,7 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       href: '/documents',
       icon: FileText,
       badge: pendingDocsCount > 0 ? pendingDocsCount : undefined,
-      badgeColor: 'bg-amber-500 text-black',
+      badgeColor: 'bg-black text-white dark:bg-white dark:text-black',
       roles: ['FOUNDER', 'HR_MANAGER', 'EMPLOYEE'],
     },
     {
@@ -65,7 +67,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       href: '/attendance',
       icon: CalendarCheck,
       badge: pendingLeavesCount > 0 ? pendingLeavesCount : undefined,
-      badgeColor: 'bg-teal-500 text-black',
+      badgeColor: 'bg-neutral-800 text-white dark:bg-neutral-200 dark:text-black',
       roles: ['FOUNDER', 'HR_MANAGER', 'EMPLOYEE'],
     },
     {
@@ -95,28 +97,28 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* Mobile Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
           onClick={onClose}
         />
       )}
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 w-72 flex flex-col bg-slate-900 border-r border-slate-800 text-slate-200 transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 w-72 flex flex-col bg-white dark:bg-black border-r border-neutral-200 dark:border-neutral-900 text-neutral-800 dark:text-neutral-200 transition-transform duration-300 ease-in-out lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* DRS Branding Header */}
-        <div className="p-5 border-b border-slate-800/80">
+        <div className="p-5 border-b border-neutral-200 dark:border-neutral-850">
           <Link href="/" onClick={onClose} className="block">
             <DrsLogo size="md" variant="full" />
           </Link>
           <div className="mt-3 flex items-center justify-between">
-            <span className="text-[11px] font-mono tracking-wider text-teal-400 bg-teal-950/80 px-2 py-0.5 rounded border border-teal-500/30 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-              PORTAL v2.4 • PROD
+            <span className="text-[10px] font-mono tracking-wider text-black dark:text-white bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded border border-neutral-300 dark:border-neutral-800 flex items-center gap-1.5 font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white animate-pulse" />
+              DEEP ROOT STUDIOS
             </span>
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+            <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider font-semibold">
               {role.replace('_', ' ')}
             </span>
           </div>
@@ -124,7 +126,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
         {/* Navigation Items */}
         <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-          <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+          <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-600">
             Operations & Management
           </div>
 
@@ -137,16 +139,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                className={`group flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                className={`group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                   isActive
-                    ? 'bg-teal-500/15 text-teal-300 border border-teal-500/30 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
+                    ? 'bg-black text-white dark:bg-white dark:text-black shadow-sm'
+                    : 'text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <Icon
                     className={`w-4 h-4 transition-colors ${
-                      isActive ? 'text-teal-400' : 'text-slate-500 group-hover:text-slate-300'
+                      isActive ? 'text-white dark:text-black' : 'text-neutral-400 group-hover:text-black dark:group-hover:text-white'
                     }`}
                   />
                   <span>{item.title}</span>
@@ -155,54 +157,61 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 <div className="flex items-center gap-1.5">
                   {item.badge !== undefined && (
                     <span
-                      className={`px-1.5 py-0.2 text-[10px] font-bold rounded-full ${item.badgeColor}`}
+                      className={`px-1.5 py-0.2 text-[9px] font-bold rounded-full ${item.badgeColor}`}
                     >
                       {item.badge}
                     </span>
                   )}
-                  {isActive && <ChevronRight className="w-3.5 h-3.5 text-teal-400" />}
+                  {isActive && <ChevronRight className="w-3.5 h-3.5" />}
                 </div>
               </Link>
             );
           })}
 
           {/* Quick Verification Link */}
-          <div className="pt-4 px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500">
-            Public Utilities
+          <div className="pt-4 px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-600">
+            Public Credentials
           </div>
           <Link
             href="/verify"
             onClick={onClose}
-            className="flex items-center gap-3 px-3 py-2 text-sm text-slate-400 hover:text-slate-100 hover:bg-slate-800/60 rounded-lg transition-colors"
+            className="flex items-center gap-3 px-3 py-2 text-xs font-medium text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 rounded-xl transition-colors"
           >
-            <ShieldCheck className="w-4 h-4 text-slate-500" />
-            <span>Document Verification</span>
+            <ShieldCheck className="w-4 h-4 text-neutral-400" />
+            <span>Verify Official Credentials</span>
           </Link>
         </nav>
 
         {/* Current User Card */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/50">
+        <div className="p-4 border-t border-neutral-200 dark:border-neutral-900 bg-neutral-50 dark:bg-neutral-950">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-400 p-0.5">
-              <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center font-bold text-teal-300 text-sm">
-                {currentUser?.fullName.charAt(0) || 'D'}
-              </div>
+            <div className="w-9 h-9 rounded-full bg-black dark:bg-white flex items-center justify-center font-bold text-white dark:text-black text-xs shrink-0">
+              {currentUser?.fullName.charAt(0) || 'D'}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-slate-200 truncate">
+              <p className="text-xs font-bold text-black dark:text-white truncate">
                 {currentUser?.fullName}
               </p>
-              <p className="text-[11px] text-teal-400 truncate">
+              <p className="text-[10px] text-neutral-500 truncate">
                 {currentUser?.designation}
               </p>
-              <p className="text-[10px] font-mono text-slate-500">
+              <p className="text-[9px] font-mono text-neutral-400">
                 {currentUser?.employeeId}
               </p>
             </div>
+            <button
+              onClick={() => {
+                logout();
+                window.location.href = '/login';
+              }}
+              title="Sign Out of DRS Portal"
+              className="p-1.5 rounded-lg text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </aside>
     </>
   );
 };
-
