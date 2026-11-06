@@ -1,41 +1,38 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { QuickActionModal } from './QuickActionModal';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import LoginPage from '@/app/login/page';
 
 export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [quickActionOpen, setQuickActionOpen] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
   const { isAuthenticated } = useAuth();
 
-  const isPublicPage = pathname?.startsWith('/verify') || pathname === '/login';
+  const isPublicVerify = pathname?.startsWith('/verify');
+  const isLoginPage = pathname === '/login';
 
-  useEffect(() => {
-    if (!isAuthenticated && !isPublicPage) {
-      router.push('/login');
-    }
-  }, [isAuthenticated, isPublicPage, router]);
-
-  // If viewing public verification page or login page, do not render dashboard shell
-  if (isPublicPage) {
+  // If viewing public verification page, render directly without internal shell
+  if (isPublicVerify) {
     return <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">{children}</main>;
   }
 
-  // If not authenticated and waiting for redirect
+  // If on login page, render directly
+  if (isLoginPage) {
+    return <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">{children}</main>;
+  }
+
+  // If not authenticated, render Login gateway directly (prevents blank screen or redirect loops)
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-black dark:border-white border-t-transparent rounded-full animate-spin" />
-          <p className="text-xs font-mono text-neutral-500">Redirecting to DRS Login...</p>
-        </div>
-      </div>
+      <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+        <LoginPage />
+      </main>
     );
   }
 

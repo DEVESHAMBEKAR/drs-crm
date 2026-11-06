@@ -236,10 +236,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     refreshUserData,
   };
 
-  if (!isClient) {
-    return null;
-  }
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
