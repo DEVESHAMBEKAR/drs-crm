@@ -186,7 +186,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         <div className="p-4 border-t border-neutral-200 dark:border-neutral-900 bg-neutral-50 dark:bg-neutral-950">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-black dark:bg-white flex items-center justify-center font-bold text-white dark:text-black text-xs shrink-0">
-              {currentUser?.fullName.charAt(0) || 'D'}
+              {currentUser?.fullName?.charAt(0) || 'D'}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-bold text-black dark:text-white truncate">

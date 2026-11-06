@@ -106,7 +106,7 @@ export default function DashboardPage() {
             </div>
             
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
-              Welcome back, {currentUser?.fullName.split(' ')[0]}
+              Welcome back, {currentUser?.fullName ? currentUser.fullName.split(' ')[0] : 'Member'}
             </h1>
             <p className="text-xs sm:text-sm text-neutral-300 mt-1 max-w-2xl">
               {isFounder && 'Founder Overview: Executive workforce oversight, document authorization, and monthly payroll liability.'}
