@@ -68,7 +68,12 @@ function setStorage<T>(key: string, value: T): void {
 export const db = {
   // Company Settings
   getCompanySettings: (): CompanySettings => {
-    return getStorage<CompanySettings>(KEYS.SETTINGS, initialCompanySettings);
+    const settings = getStorage<CompanySettings>(KEYS.SETTINGS, initialCompanySettings);
+    if (settings.address && settings.address.includes('Orion Tech Park')) {
+      settings.address = 'World Trade Center, Kharadi, Pune, Maharashtra - 411014';
+      setStorage(KEYS.SETTINGS, settings);
+    }
+    return settings;
   },
   updateCompanySettings: (settings: Partial<CompanySettings>, actor: { id: string; name: string; role: UserRole }): CompanySettings => {
     const current = db.getCompanySettings();

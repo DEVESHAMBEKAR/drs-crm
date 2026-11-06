@@ -117,6 +117,8 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
         senderPassword: settings.smtpPassword || '',
         senderName: settings.authorizedSignatoryName || 'HR Department',
         companyName: settings.companyName,
+        smtpHost: settings.smtpHost || 'smtp.zoho.in',
+        smtpPort: settings.smtpPort || 465,
         pdfBase64: pdfData?.base64 || undefined,
         pdfFilename: pdfData?.filename || undefined,
       };
@@ -224,21 +226,19 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
           )}
 
           {/* Share via Email Button */}
-          {isApproved && (
-            <button
-              onClick={() => {
-                setShowEmailModal(true);
-                setEmailResult(null);
-                // Pre-fill employee email
-                const emp = db.getEmployeeById(doc.employeeId);
-                if (emp) setEmailTo(emp.email);
-              }}
-              className="px-3 py-2 rounded-lg text-xs font-bold bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-black dark:text-white border border-neutral-300 dark:border-neutral-700 flex items-center gap-1.5 transition-colors"
-            >
-              <Mail className="w-4 h-4" />
-              Share via Email
-            </button>
-          )}
+          <button
+            onClick={() => {
+              setShowEmailModal(true);
+              setEmailResult(null);
+              // Pre-fill employee email
+              const emp = db.getEmployeeById(doc.employeeId);
+              if (emp) setEmailTo(emp.email);
+            }}
+            className="px-3 py-2 rounded-lg text-xs font-bold bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-black dark:text-white border border-neutral-300 dark:border-neutral-700 flex items-center gap-1.5 transition-colors"
+          >
+            <Mail className="w-4 h-4" />
+            Share via Email
+          </button>
 
           <button
             onClick={() => window.print()}

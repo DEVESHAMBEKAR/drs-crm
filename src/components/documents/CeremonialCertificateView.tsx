@@ -110,7 +110,7 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
               <div className="text-left font-sans">
                 <h1 className="text-2xl font-black tracking-tight text-black">DEEP ROOT STUDIOS</h1>
                 <p className="text-[10px] tracking-widest uppercase font-mono text-neutral-600 font-semibold">
-                  End-to-End AI Operations Partner • Bengaluru, India
+                  End-to-End AI Operations Partner • Pune, India
                 </p>
               </div>
             </div>

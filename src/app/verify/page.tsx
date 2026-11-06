@@ -75,7 +75,7 @@ export default function PublicVerifySearchPage() {
       <div className="text-center text-xs text-neutral-500">
         <p>© 2026 Deep Root Studios Private Limited • CIN U72900KA2024PTC189201</p>
         <p className="text-[10px] text-neutral-600 mt-1">
-          Founder: Devesh Ambekar • Head of HR: Maroti Kadam • Bengaluru, Karnataka, India
+          Founder: Devesh Ambekar • Head of HR: Maroti Kadam • Pune, Maharashtra, India
         </p>
       </div>
     </div>

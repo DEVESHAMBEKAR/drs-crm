@@ -116,11 +116,11 @@ export default function AttendancePage() {
     { date: '2026-03-04', name: 'Holi', day: 'Wednesday' },
     { date: '2026-03-20', name: 'Ugadi / Gudi Padwa', day: 'Friday' },
     { date: '2026-04-03', name: 'Good Friday', day: 'Friday' },
-    { date: '2026-05-01', name: 'May Day / Labor Day', day: 'Friday' },
+    { date: '2026-05-01', name: 'Maharashtra Day / Labor Day', day: 'Friday' },
     { date: '2026-08-15', name: 'Independence Day', day: 'Saturday' },
+    { date: '2026-09-14', name: 'Ganesh Chaturthi', day: 'Monday' },
     { date: '2026-10-02', name: 'Mahatma Gandhi Jayanti', day: 'Friday' },
     { date: '2026-10-20', name: 'Maha Navami / Dussehra', day: 'Tuesday' },
-    { date: '2026-11-01', name: 'Karnataka Rajyotsava', day: 'Sunday' },
     { date: '2026-11-08', name: 'Diwali (Deepavali)', day: 'Sunday' },
     { date: '2026-12-25', name: 'Christmas', day: 'Friday' },
   ];

@@ -24,6 +24,7 @@ export default function PayrollPage() {
   const { role, isFounder, isHR, isEmployeeOnly, currentUser } = useAuth();
   const [cycles, setCycles] = useState<PayrollRecord[]>(db.getPayrollCycles());
   const [payslips, setPayslips] = useState<PayslipItem[]>(db.getPayslips());
+  const [settings, setSettings] = useState(db.getCompanySettings());
 
   // Payroll Wizard Modal
   const [isWizardOpen, setIsWizardOpen] = useState(false);
@@ -36,6 +37,7 @@ export default function PayrollPage() {
   useEffect(() => {
     setCycles(db.getPayrollCycles());
     setPayslips(db.getPayslips());
+    setSettings(db.getCompanySettings());
   }, [role, currentUser]);
 
   const refreshData = () => {
@@ -401,7 +403,7 @@ export default function PayrollPage() {
                     DEEP ROOT STUDIOS PRIVATE LIMITED
                   </h2>
                   <p className="text-[11px] text-neutral-600">
-                    Level 4, Orion Tech Park, HSR Layout, Bengaluru - 560102
+                    {settings.address || 'World Trade Center, Kharadi, Pune, Maharashtra - 411014'}
                   </p>
                   <p className="text-xs font-bold text-black mt-1 uppercase">
                     SALARY SLIP FOR {monthNames[selectedPayslip.month - 1].toUpperCase()} {selectedPayslip.year}

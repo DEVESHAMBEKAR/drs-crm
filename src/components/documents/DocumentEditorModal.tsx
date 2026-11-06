@@ -45,7 +45,7 @@ export const DocumentEditorModal: React.FC<DocumentEditorModalProps> = ({
     stipend_amount: '30,000',
     internship_duration: '3 Months',
     internship_end_date: '',
-    work_mode: 'Hybrid (Bengaluru Headquarters)',
+    work_mode: 'Hybrid (Pune Headquarters)',
     exit_date: '',
     new_designation: '',
     revised_ctc: '',

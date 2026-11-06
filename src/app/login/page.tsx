@@ -188,7 +188,7 @@ export default function LoginPage() {
             Deep Root Studios Private Limited • CIN: U72900KA2024PTC189201
           </p>
           <p className="text-[10px] text-neutral-400">
-            Level 4, Orion Tech Park, HSR Layout, Bengaluru, Karnataka 560102
+            World Trade Center, Kharadi, Pune, Maharashtra - 411014
           </p>
         </div>
       </div>

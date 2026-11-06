@@ -23,7 +23,7 @@ export const initialCompanySettings: CompanySettings = {
   officialEmail: 'operations@deeprootstudios.ai',
   hrEmail: 'maroti.kadam@deeprootstudios.ai',
   phone: '+91 (080) 4567-8900',
-  address: 'Level 4, Orion Tech Park, 24th Main Road, HSR Layout, Sector 2, Bengaluru, Karnataka 560102, India',
+  address: 'World Trade Center, Kharadi, Pune, Maharashtra - 411014',
   cinNumber: 'U72900KA2024PTC189201',
   logoUrl: '/assets/drs-logo.jpg',
   founderName: 'Devesh Ambekar',
@@ -382,7 +382,7 @@ export const initialDocumentTemplates: DocumentTemplate[] = [
 On behalf of **Deep Root Studios Private Limited (DRS)**, we are pleased to extend an offer of employment for the position of **{{designation}}** in the **{{department}}** division.
 
 ### 1. Commencement of Employment
-Your employment with Deep Root Studios shall commence on **{{joining_date}}**. You will report directly to **{{reporting_manager}}** at our Bengaluru headquarters or as mutually approved for remote operations.
+Your employment with Deep Root Studios shall commence on **{{joining_date}}**. You will report directly to **{{reporting_manager}}** at our Pune headquarters or as mutually approved for remote operations.
 
 ### 2. Remuneration & Compensation
 Your total Annual Cost to Company (CTC) will be **INR {{annual_ctc}}/-** (Rupees {{annual_ctc_in_words}}), payable on a monthly basis in accordance with company payroll cycles.
@@ -427,7 +427,7 @@ All models, scripts, pipelines, annotations, datasets, and intellectual property
 
 We congratulate you on your appointment and wish you a rewarding career with DRS.`,
     termsAndConditions: [
-      'Governed by the laws of India and subject to the jurisdiction of courts in Bengaluru, Karnataka.',
+      'Governed by the laws of India and subject to the jurisdiction of courts in Pune, Maharashtra.',
       'Termination of employment requires written notice as stipulated in the employment handbook.',
       'Non-compete and non-solicitation covenants remain valid for 12 months following cessation of employment.',
     ],
@@ -593,7 +593,7 @@ This is to certify that **{{employee_name}}** (Employee ID: **{{employee_id}}**)
 - **Date of Joining:** {{joining_date}}
 - **Employment Status:** Active / Confirmed
 - **Current Annual CTC:** INR {{annual_ctc}}/-
-- **Work Location:** Bengaluru, Karnataka, India
+- **Work Location:** Pune, Maharashtra, India
 
 This certificate is issued at the specific request of the employee for official verification purposes (such as banking, housing, or regulatory processing) without any liability on the part of Deep Root Studios Private Limited or its signatories.`,
     termsAndConditions: [
@@ -800,7 +800,7 @@ export const initialDocuments: DocumentRecord[] = [
       internship_end_date: '05 April 2026',
       stipend_amount: '30,000',
       reporting_manager: 'Karthik Ramanathan',
-      work_mode: 'Hybrid (Bengaluru Office)',
+      work_mode: 'Hybrid (Pune Office)',
     },
     createdAt: '2025-12-28T10:00:00Z',
     updatedAt: '2025-12-29T11:00:00Z',

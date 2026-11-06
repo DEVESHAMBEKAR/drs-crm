@@ -16,6 +16,8 @@ export async function POST(request: NextRequest) {
       senderPassword,
       senderName,
       companyName,
+      smtpHost: requestedHost,
+      smtpPort: requestedPort,
       pdfBase64,
       pdfFilename,
     } = body;
@@ -27,15 +29,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Determine Zoho SMTP host based on email domain
-    const isZohoIn = senderEmail.endsWith('.in') || senderEmail.includes('zoho.in');
-    const smtpHost = isZohoIn ? 'smtp.zoho.in' : 'smtp.zoho.com';
+    // Determine Zoho SMTP host based on requested host or Zoho data center
+    const smtpHost = requestedHost || (senderEmail.includes('zoho.com') ? 'smtp.zoho.com' : 'smtp.zoho.in');
+    const smtpPort = requestedPort || 465;
 
     // Create Zoho Mail SMTP transporter
     const transporter = nodemailer.createTransport({
       host: smtpHost,
-      port: 465,
-      secure: true,
+      port: smtpPort,
+      secure: smtpPort === 465,
       auth: {
         user: senderEmail,
         pass: senderPassword,
