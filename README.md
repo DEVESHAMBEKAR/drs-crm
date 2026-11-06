@@ -1,147 +1,134 @@
-# Deep Root Studios (DRS) – Centralized Management Platform
+# Deep Root Studios (DRS) – Management Portal
 
-![Deep Root Studios](https://img.shields.io/badge/DRS-AI%20Operations-teal)
-![Version](https://img.shields.io/badge/Portal-v2.4%20Production-0d9488)
-![Next.js](https://img.shields.io/badge/Next.js-15.1-black)
-![React](https://img.shields.io/badge/React-19.0-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FDEVESHAMBEKAR%2Fdrs-crm)
+![Next.js 15](https://img.shields.io/badge/Next.js-15.5-black?style=flat&logo=next.js)
+![React 19](https://img.shields.io/badge/React-19.0-black?style=flat&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-black?style=flat&logo=typescript)
+![TailwindCSS](https://img.shields.io/badge/Theme-Monochrome-black)
 
-Enterprise-grade HRMS, ERP, Document Automation, and Operations Management Platform designed specifically for **Deep Root Studios (DRS)** — an end-to-end AI operations partner for Data Annotation, AI Evaluation & QA, Autonomous AI Agents, and Workflow Automation.
+Enterprise-grade HRMS, ERP, Document Automation, and Operations Management Platform designed specifically for **Deep Root Studios Private Limited (DRS)** — End-to-End AI Operations Partner for Data Annotation, AI Evaluation & QA, Autonomous AI Agents, and Workflow Automation.
 
 ---
 
-## 1. Company Profile & Operational Scope
+## 🚀 One-Click Cloud Deployment (Vercel)
+
+The easiest way to make this platform live for your company:
+
+1. Click the button below:
+
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FDEVESHAMBEKAR%2Fdrs-crm)
+
+2. Sign in to your [Vercel](https://vercel.com) account (using your GitHub account `DEVESHAMBEKAR`).
+3. Click **Deploy**. Vercel will automatically build the Next.js app and assign a free production URL (e.g., `https://drs-crm.vercel.app`).
+4. *(Optional)* Add your custom domain (such as `crm.deeprootstudios.ai` or `portal.deeprootstudios.ai`) in Vercel Project Settings → Domains.
+
+---
+
+## 🏢 Company Profile
 
 * **Company Name:** Deep Root Studios Private Limited (DRS)
 * **Industry:** Technology, Information and Internet
 * **Category:** AI Solutions and AI Operations
 * **Positioning:** End-to-End AI Operations Partner for Data, Annotation & Automation
-* **Core Divisions:**
-  1. Data Annotation
-  2. AI Evaluation & QA
-  3. AI Agents & Automation
-  4. Workflow Automation
-* **Registered Hub:** Bengaluru, Karnataka, India (CIN: `U72900KA2024PTC189201`)
-* **Authorized Signatory:** Devesh Sharma (Founder & CEO)
+* **Registered Address:** World Trade Center, Kharadi, Pune, Maharashtra - 411014
+* **Corporate Identification Number (CIN):** `U72900KA2024PTC189201`
+* **Founder & CEO:** Devesh Ambekar
+* **Head of Human Resources & Operations:** Maroti Kadam
+* **Website:** https://deeprootstudios.ai
 
 ---
 
-## 2. Key Modules & Capabilities
+## 🔑 Default Login Credentials
 
-### 👑 Role-Based Access Control (RBAC) & Persona Switcher
-The platform enforces strict role separation with an **Instant Persona Switcher** in the navigation bar to test all user journeys:
-1. **SUPER ADMIN / FOUNDER (Devesh Sharma):**
-   * Full access to platform operations, financial summaries, and workforce records.
-   * Exclusive authority to sign and issue official documents (Offer letters, Appointment letters, Relieving certificates).
-   * Review and approve monthly payroll disbursements.
-   * Access to immutable security audit logs.
-   * Template management and corporate letterhead settings.
-2. **HR / OPERATIONS MANAGER (Ananya Rao):**
-   * Register employees, maintain profiles, and record emergency & KYC data.
-   * Draft official letters and certificates (submitted to Founder for review).
-   * Prepare draft monthly payroll cycles and track working days.
-   * Review and approve/reject leave applications.
-   * Broadcast internal announcements.
-3. **EMPLOYEE SELF-SERVICE (Karthik Ramanathan, Aditi Mukhopadhyay, etc.):**
-   * Personal profile, assigned responsibilities, and emergency contacts.
-   * Personal **Documents Vault** with one-click PDF download for all issued contracts and certificates.
-   * Monthly payslip inspection with transparent earnings and deductions breakdown.
-   * Daily check-in / check-out with work mode logging (Office, Remote, Hybrid).
-   * Leave quota tracker and leave application filing.
+| Role | Username / Identity | Password | Permissions |
+| :--- | :--- | :--- | :--- |
+| **Founder & Super Admin** *(Devesh Ambekar)* | `admin` | `admin123` | Full administrative control, document issuance, payroll approvals, company settings |
+| **HR & Operations Manager** *(Maroti Kadam)* | `hr` | `admin123` *(or `hr123`)* | Employee onboarding, payslip editing, draft document generation, leave records |
+| **Employee Self-Service** | Employee Email or ID | `admin123` | Personal profile, my documents, my payslips, leave applications |
 
 ---
 
-### 📄 Dynamic Document Generation Engine
-Generates legally formatted, high-resolution official documents rendered on official DRS Letterhead:
-* **Offer Letters & Appointment Letters** (with candidate acceptance section)
-* **Internship Suite** (Offer, Agreement, Extension, Completion Certificate, Experience)
-* **Separation Suite** (Experience Certificate, Relieving Letter, Resignation Acceptance)
-* **Appraisal Suite** (Promotion Letter, Appreciation Certificate, Warning Advisory)
-* **Dynamic Placeholder Replacement Engine** (`{{employee_name}}`, `{{employee_id}}`, `{{designation}}`, `{{joining_date}}`, `{{annual_ctc}}`, etc.)
-* **Tamper-Proof Verification:** Every issued document receives a unique cryptographic token and a **scannable QR code** linked to the public verification portal (`/verify/[token]`).
-* **High-Resolution Export:** One-click client-side PDF generation via jsPDF / html2canvas as well as standard vector browser printing.
+## 🌟 Key Platform Capabilities
 
----
+### 1. Dynamic Document Generation Engine
+* **A4 Print-Ready Letterhead:** Authentic corporate layout with the official DRS logo, Pune registered office address, CIN, official company stamp, and authorized signatures.
+* **12 Pre-configured Corporate Templates:**
+  * Standard Employment Offer Letter
+  * Official Letter of Appointment
+  * Internship Offer & Terms
+  * Internship Completion Certificate
+  * Relieving & Experience Certificate
+  * Certificate of Excellence & Appreciation
+  * Promotion Letter & Compensation Revision
+  * Formal Written Advisory / Warning Letter
+  * Employment Verification Letter *(for banks / visa processing)*
+  * Official Relieving Order & Clearance Certificate
+  * Resignation Acceptance & Notice Period Acknowledgment
+  * Certificate of Project Delivery Excellence
+* **Verification QR Code & Cryptographic Hash:** Every issued document receives a unique verification token and tamper-proof verification page at `/verify/[token]`.
 
-### 💳 Payroll & Statutory Compensation Module
-* Monthly payroll compilation wizard matching active employees.
-* Configurable compensation structures (Basic Salary, HRA, Special Allowance, Conveyance, Stipend).
-* Automated statutory deductions:
-  * Provident Fund (PF)
-  * Professional Tax (PT)
-  * Tax Deducted at Source (TDS)
-* Founder approval gate before payout confirmation.
-* Transparent payslips generated with net pay in words and bank transaction reference.
+### 2. Zoho Mail SMTP Integration (Trigger Emails with PDF Attachments)
+* Built-in serverless dispatch via `nodemailer` connecting to Zoho Mail SMTP (`smtp.zoho.in:465` or `smtp.zoho.com:465`).
+* One-click **"Share via Email"** on any document or payslip automatically attaches the generated PDF.
+* Configurable from **Settings → 4. Zoho Mail Dispatch Configuration**.
 
----
+### 3. Individual & Batch Payslip Engine
+* **Batch Monthly Payroll:** Prepare monthly compensation cycles for active employees.
+* **Individual Custom Payslip Creator (`+ Create Individual Payslip`):** Pick any employee, customize earnings (Basic, HRA, Special Allowance, Bonuses) and deductions (PF, Professional Tax, TDS, LOP).
+* **Fix / Edit Existing Payslips:** Fine-tune individual entries with real-time recalculation of Gross, Deductions, Net Salary, and Indian Currency Words (*"Rupees Only"*).
+* **High-Res PDF & Email:** One-click PDF download and direct email delivery to employees.
 
-### 🕒 Attendance & Leave Operations
+### 4. Attendance & Leave Operations
 * Daily check-in / check-out with work mode tracking (`OFFICE`, `REMOTE`, `HYBRID`).
-* Automatic working hours calculation.
-* Leave quota management: Casual Leave, Sick Leave, Earned/Paid Leave, Unpaid Leave.
-* Multi-tier review workflow for leave approvals.
-* Indian Tech Holiday Calendar 2026 (Republic Day, Holi, Ugadi, Independence Day, Gandhi Jayanti, Dussehra, Diwali, etc.).
+* Automatic working hours calculation and leave balance deduction.
+* Maharashtra state holiday calendar integration.
 
 ---
 
-### 🛡️ Public Document Verification Portal (`/verify/[token]`)
-* Accessible by third parties, clients, or verification agencies to validate DRS credentials.
-* Displays official Deep Root Studios Authenticity Shield, document issue date, recipient name, and current status (`VALID / AUTHENTIC` or `REVOKED`).
+## 💻 Local Development & Self-Hosting
 
----
+### Prerequisites
+* Node.js 18.18+ or 20+
+* npm or pnpm
 
-## 3. Technology Stack
-
-* **Frontend Framework:** Next.js 15.1+ (App Router)
-* **UI Library:** React 19.0
-* **Styling:** Tailwind CSS with Custom Deep Root Obsidian/Emerald Palette & Dark/Light Mode
-* **Icons:** Lucide React
-* **PDF & QR Code Engine:** `jspdf`, `html2canvas`, `qrcode`
-* **Database & Persistence:** Dual-mode architecture:
-  * Default Local-first storage with immediate state persistence and factory data reset.
-  * Direct Supabase PostgreSQL integration via `supabase/migrations/20261106_init_drs.sql`.
-
----
-
-## 4. Getting Started
-
-### Local Development
+### Setup
 ```bash
-# Run development server
+# Clone the repository
+git clone https://github.com/DEVESHAMBEKAR/drs-crm.git
+cd drs-crm
+
+# Install dependencies
+npm install
+
+# Start local development server
 npm run dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Persona Testing
-Use the **Persona Switcher** in the top navigation bar to toggle between:
-* 👑 **Founder / Super Admin:** Test document approvals, payroll approvals, and audit logs.
-* 💼 **HR Manager:** Test employee onboarding, document drafting, and leave reviews.
-* 👤 **Employee:** Test check-in, leave requests, document downloads, and payslips.
-
-### Production Build
+### Production Build & Test
 ```bash
+# Build the production bundle
 npm run build
+
+# Start production server
 npm start
 ```
-All routes compile statically and dynamically with 0 errors.
 
 ---
 
-## 5. Supabase Integration (Optional)
-If connecting to an external Supabase project:
-1. Copy `.env.example` to `.env.local` and fill in:
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
-2. Run the migration script in your Supabase SQL Editor:
-   ```
-   supabase/migrations/20261106_init_drs.sql
-   ```
-All Row-Level Security (RLS) policies and relational enums are pre-configured.
+## 📧 How to Setup Zoho Mail (In Portal)
+
+1. Sign in to the portal as Admin (`admin` / `admin123`).
+2. Navigate to **Settings** (`/settings`).
+3. Scroll to **4. Zoho Mail Dispatch Configuration (SMTP)**.
+4. Enter:
+   * **Company Zoho Email Address:** Your official email.
+   * **Zoho App Password:** Generated from [accounts.zoho.in](https://accounts.zoho.in) → Security → App Passwords.
+   * **Host:** `smtp.zoho.in` (India) or `smtp.zoho.com` (Global).
+   * **Port:** `465`.
+5. Click **Save Company Settings**.
 
 ---
 
-© 2026 Deep Root Studios Private Limited. Confidential and Proprietary.
-
+© 2026 Deep Root Studios Private Limited. All Rights Reserved.
