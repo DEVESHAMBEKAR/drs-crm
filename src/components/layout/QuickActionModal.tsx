@@ -141,3 +141,4 @@ export const QuickActionModal: React.FC<QuickActionModalProps> = ({ isOpen, onCl
     </div>
   );
 };
+

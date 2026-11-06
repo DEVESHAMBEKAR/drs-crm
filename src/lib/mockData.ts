@@ -1064,3 +1064,4 @@ export const initialAnnouncements: Announcement[] = [
     date: '2026-11-03',
   },
 ];
+

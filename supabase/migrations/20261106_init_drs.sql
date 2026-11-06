@@ -327,3 +327,4 @@ CREATE POLICY "Documents readable by owner, HR, Founder" ON documents FOR SELECT
 CREATE POLICY "Documents manageable by Founder and HR" ON documents FOR ALL USING (
     auth.get_user_role() IN ('FOUNDER', 'HR_MANAGER')
 );
+

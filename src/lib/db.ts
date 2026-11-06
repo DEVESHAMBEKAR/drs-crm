@@ -610,3 +610,4 @@ export const db = {
     setStorage(KEYS.CURRENT_USER_ID, 'emp-001');
   },
 };
+

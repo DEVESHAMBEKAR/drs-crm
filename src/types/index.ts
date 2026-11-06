@@ -269,3 +269,4 @@ export interface Announcement {
   isPinned: boolean;
   date: string;
 }
+

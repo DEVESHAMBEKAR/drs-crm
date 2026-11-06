@@ -314,3 +314,4 @@ export default function DocumentTemplatesPage() {
     </div>
   );
 }
+

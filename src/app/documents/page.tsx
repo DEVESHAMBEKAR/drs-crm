@@ -298,3 +298,4 @@ export default function DocumentsHubPage() {
     </div>
   );
 }
+
