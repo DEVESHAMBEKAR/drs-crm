@@ -50,21 +50,73 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
       .catch((err) => console.error('QR generation error:', err));
   }, [verifyUrl]);
 
-  // Generate PDF as base64 for email attachment
-  const generatePDFBase64 = async (): Promise<{ base64: string; filename: string } | null> => {
+  // Robust multi-page A4 PDF builder with scroll-offset stabilization
+  const createDocumentPDF = async (): Promise<jsPDF | null> => {
     if (!documentRef.current) return null;
+
+    // Temporarily reset window scroll position to eliminate html2canvas offset and shifting artifacts
+    const prevScrollX = window.scrollX;
+    const prevScrollY = window.scrollY;
+    window.scrollTo(0, 0);
+
     try {
-      const canvas = await html2canvas(documentRef.current, {
-        scale: 2,
+      const element = documentRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 2, // High resolution (192 DPI) for crisp text & sharp stamps
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: 1200,
       });
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+      const imgData = canvas.toDataURL('image/png', 1.0);
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * pageWidth) / canvas.width;
+
+      if (imgHeight <= pageHeight) {
+        // Fits on a single A4 page
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight, undefined, 'FAST');
+      } else {
+        // Multi-page clean slicing for long employment agreements
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+        heightLeft -= pageHeight;
+
+        while (heightLeft > 5) {
+          position -= pageHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+          heightLeft -= pageHeight;
+        }
+      }
+
+      return pdf;
+    } catch (err) {
+      console.error('PDF Generation Error:', err);
+      return null;
+    } finally {
+      // Instantly restore previous user scroll position
+      window.scrollTo(prevScrollX, prevScrollY);
+    }
+  };
+
+  // Generate PDF as base64 for email attachment
+  const generatePDFBase64 = async (): Promise<{ base64: string; filename: string } | null> => {
+    try {
+      const pdf = await createDocumentPDF();
+      if (!pdf) return null;
       const base64 = pdf.output('datauristring').split(',')[1];
       const filename = `${doc.documentNumber.replace(/[\/\\]/g, '_')}_${doc.employeeName.replace(/\s+/g, '_')}.pdf`;
       return { base64, filename };
@@ -74,21 +126,14 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
   };
 
   const handleExportPDF = async () => {
-    if (!documentRef.current) return;
     setIsExporting(true);
     try {
-      const canvas = await html2canvas(documentRef.current, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff',
-      });
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`${doc.documentNumber.replace(/[\/\\]/g, '_')}_${doc.employeeName.replace(/\s+/g, '_')}.pdf`);
+      const pdf = await createDocumentPDF();
+      if (pdf) {
+        pdf.save(`${doc.documentNumber.replace(/[\/\\]/g, '_')}_${doc.employeeName.replace(/\s+/g, '_')}.pdf`);
+      } else {
+        window.print();
+      }
     } catch {
       window.print();
     } finally {
@@ -260,17 +305,19 @@ export const OfficialDocumentView: React.FC<OfficialDocumentViewProps> = ({
       </div>
 
       {/* ===== A4 DOCUMENT SHEET ===== */}
-      <div className="flex justify-center">
+      <div className="flex justify-center overflow-x-auto pb-8">
         <div
           ref={documentRef}
-          className="document-sheet relative w-full max-w-[850px] bg-white text-black shadow-2xl border border-neutral-300 rounded-none flex flex-col justify-between select-text"
+          className="document-sheet relative bg-white text-black shadow-2xl border border-neutral-300 rounded-none flex flex-col justify-between select-text"
           style={{
-            minHeight: '1122px',
+            width: '794px',
+            minHeight: '1123px',
             padding: '48px 56px',
             fontFamily: "'Times New Roman', 'Georgia', serif",
             fontSize: '12px',
             lineHeight: '1.7',
             color: '#1a1a1a',
+            boxSizing: 'border-box',
           }}
         >
           {/* Watermark */}

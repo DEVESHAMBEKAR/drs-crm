@@ -37,6 +37,10 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
   const handleExportPDF = async () => {
     if (!certRef.current) return;
     setIsExporting(true);
+    const prevScrollX = window.scrollX;
+    const prevScrollY = window.scrollY;
+    window.scrollTo(0, 0);
+
     try {
       const element = certRef.current;
       const canvas = await html2canvas(element, {
@@ -44,20 +48,23 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
+        scrollX: 0,
+        scrollY: 0,
       });
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/png', 1.0);
       const pdf = new jsPDF({
         orientation: 'landscape',
         unit: 'mm',
         format: 'a4',
       });
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
       pdf.save(`DRS_Certificate_${doc.employeeName.replace(/\s+/g, '_')}.pdf`);
     } catch (e) {
       window.print();
     } finally {
+      window.scrollTo(prevScrollX, prevScrollY);
       setIsExporting(false);
     }
   };
@@ -94,7 +101,7 @@ export const CeremonialCertificateView: React.FC<CeremonialCertificateProps> = (
       <div className="flex justify-center overflow-x-auto pb-4">
         <div
           ref={certRef}
-          className="relative w-[950px] min-h-[660px] bg-white text-black p-10 shadow-2xl border-8 border-black flex flex-col justify-between font-serif select-text"
+          className="relative w-[1123px] min-h-[794px] bg-white text-black p-12 shadow-2xl border-8 border-black flex flex-col justify-between font-serif select-text box-border"
         >
           {/* Inner Decorative Double Border */}
           <div className="absolute inset-3 border-2 border-dashed border-neutral-400 pointer-events-none" />

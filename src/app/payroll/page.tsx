@@ -290,23 +290,66 @@ export default function PayrollPage() {
     }
   };
 
-  // Export Payslip PDF
-  const handleExportPDF = async () => {
-    if (!payslipSheetRef.current || !selectedPayslip) return;
-    setIsExporting(true);
+  // Create stable, multi-page or single-page A4 Payslip PDF
+  const createPayslipPDF = async (slip: PayslipItem): Promise<jsPDF | null> => {
+    if (!payslipSheetRef.current) return null;
+    const prevScrollX = window.scrollX;
+    const prevScrollY = window.scrollY;
+    window.scrollTo(0, 0);
+
     try {
-      const canvas = await html2canvas(payslipSheetRef.current, {
+      const element = payslipSheetRef.current;
+      const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff',
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: 1200,
       });
-      const imgData = canvas.toDataURL('image/png');
+
+      const imgData = canvas.toDataURL('image/png', 1.0);
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`DRS_Payslip_${selectedPayslip.payslipNumber.replace(/[\/\\]/g, '_')}_${selectedPayslip.employeeName.replace(/\s+/g, '_')}.pdf`);
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * pageWidth) / canvas.width;
+
+      if (imgHeight <= pageHeight) {
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight, undefined, 'FAST');
+      } else {
+        let heightLeft = imgHeight;
+        let position = 0;
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+        heightLeft -= pageHeight;
+        while (heightLeft > 5) {
+          position -= pageHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+          heightLeft -= pageHeight;
+        }
+      }
+      return pdf;
+    } catch (err) {
+      console.error('Payslip PDF Error:', err);
+      return null;
+    } finally {
+      window.scrollTo(prevScrollX, prevScrollY);
+    }
+  };
+
+  // Export Payslip PDF
+  const handleExportPDF = async () => {
+    if (!selectedPayslip) return;
+    setIsExporting(true);
+    try {
+      const pdf = await createPayslipPDF(selectedPayslip);
+      if (pdf) {
+        pdf.save(`DRS_Payslip_${selectedPayslip.payslipNumber.replace(/[\/\\]/g, '_')}_${selectedPayslip.employeeName.replace(/\s+/g, '_')}.pdf`);
+      } else {
+        window.print();
+      }
     } catch {
       window.print();
     } finally {
@@ -324,18 +367,8 @@ export default function PayrollPage() {
       let pdfBase64: string | undefined = undefined;
       let pdfFilename: string | undefined = undefined;
 
-      if (payslipSheetRef.current) {
-        const canvas = await html2canvas(payslipSheetRef.current, {
-          scale: 2,
-          useCORS: true,
-          logging: false,
-          backgroundColor: '#ffffff',
-        });
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      const pdf = await createPayslipPDF(emailModalSlip);
+      if (pdf) {
         pdfBase64 = pdf.output('datauristring').split(',')[1];
         pdfFilename = `Payslip_${emailModalSlip.payslipNumber.replace(/[\/\\]/g, '_')}.pdf`;
       }
@@ -1254,7 +1287,17 @@ export default function PayrollPage() {
             </div>
 
             {/* PAYSLIP PRINT CANVAS */}
-            <div ref={payslipSheetRef} className="space-y-6 bg-white p-2">
+            <div
+              ref={payslipSheetRef}
+              className="space-y-6 bg-white text-black p-8 border border-neutral-300"
+              style={{
+                width: '100%',
+                maxWidth: '794px',
+                backgroundColor: '#ffffff',
+                color: '#000000',
+                boxSizing: 'border-box',
+              }}
+            >
               {/* Header with DRS Logo and Pune Address */}
               <div className="border-b-2 border-black pb-4 flex items-start justify-between">
                 <div className="flex items-center gap-3">
